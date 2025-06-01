@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Artikel - SouvenirStudio Admin</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color: #020072;
+            --secondary-color: #000f66;
+            --dark-color: #000f3a;
+            --light-color: #F8F9FA;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+            --warning-color: #fd7e14;
+            --info-color: #17a2b8;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --max-width: 1400px;
+        }
+
+        body {
+            background-color: var(--gray-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav ul li {
+            margin: 0.2rem 0;
+        }
+
+        .sidebar-nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav ul li a:hover,
+        .sidebar-nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .sidebar-nav ul li a i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-footer .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.8rem;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-name {
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: all 0.3s;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--gray-color);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            flex: 0 0 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            margin-left: 0.5rem;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .topbar-actions .action-item {
+            margin-left: 1.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .topbar-actions .action-item i {
+            font-size: 1.2rem;
+        }
+
+        .topbar-actions .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Filters */
+        .filters-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .stat-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+
+        .stat-card .stat-title {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-card .positive {
+            color: var(--success-color);
+        }
+
+        .stat-card .negative {
+            color: var(--danger-color);
+        }
+
+        /* Articles Table */
+        .articles-table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .bulk-actions select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .articles-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .articles-table th,
+        .articles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .articles-table th {
+            background-color: var(--light-color);
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .articles-table tr:hover {
+            background-color: rgba(2, 0, 114, 0.02);
+        }
+
+        .article-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .article-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .article-details h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: var(--dark-color);
+            line-height: 1.3;
+        }
+
+        .article-details p {
+            font-size: 0.85rem;
+            color: #6c757d;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+
+        .article-meta {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-published {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .status-draft {
+            background-color: rgba(108, 117, 125, 0.2);
+            color: #495057;
+        }
+
+        .status-scheduled {
+            background-color: rgba(23, 162, 184, 0.2);
+            color: #0c5460;
+        }
+
+        .status-archived {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #721c24;
+        }
+
+        .category-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-right: 0.3rem;
+        }
+
+        .category-budaya {
+            background-color: rgba(2, 0, 114, 0.1);
+            color: var(--primary-color);
+        }
+
+        .category-fashion {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        .category-kuliner {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .category-seni {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #721c24;
+        }
+
+        .category-pariwisata {
+            background-color: rgba(23, 162, 184, 0.2);
+            color: #0c5460;
+        }
+
+        .views-count {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .views-count::before {
+            content: "👁️";
+            margin-right: 0.3rem;
+        }
+
+        /* Wrapper dan ikon */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Kotak dropdown */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            z-index: 10;
+        }
+
+        /* Tampilkan saat aktif */
+        .user-dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        /* Item di dalam menu */
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f0f0;
+        }
+
+        /* Garis pemisah */
+        .dropdown-divider {
+            height: 1px;
+            background: #ddd;
+            margin: 4px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn.edit {
+            background-color: var(--info-color);
+            color: white;
+        }
+
+        .action-btn.edit:hover {
+            background-color: #138496;
+        }
+
+        .action-btn.delete {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background-color: #c82333;
+        }
+
+        .action-btn.view {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .action-btn.view:hover {
+            background-color: #218838;
+        }
+
+        .action-btn.duplicate {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .action-btn.duplicate:hover {
+            background-color: #e0a800;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close:hover {
+            color: var(--danger-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .image-upload {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(2, 0, 114, 0.02);
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Rich Text Editor Placeholder */
+        .editor-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            background-color: var(--light-color);
+        }
+
+        .editor-btn {
+            padding: 0.3rem 0.6rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .editor-btn:hover {
+            background-color: var(--gray-color);
+        }
+
+        .content-editor {
+            min-height: 300px;
+            border-radius: 0 0 4px 4px;
+            border-top: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: none;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0;
+                font-size: 1.5rem;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: block;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0.8rem;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .page-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .articles-table {
+                font-size: 0.8rem;
+            }
+
+            .article-thumbnail {
+                width: 60px;
+                height: 45px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">Souvenir<span>Studio</span></a>
+            </div>
+
+            <div class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html">📊 <span>Dashboard</span></a></li>
+                    <li><a href="kelola-produk.html">📦 <span>Produk</span></a></li>
+                    <li><a href="kelola-artikel.html" class="active">📝 <span>Artikel</span></a></li>
+                    <li><a href="pesanan.html">🛒 <span>Pesanan</span></a></li>
+                    <li><a href="pelanggan.html">👥 <span>Pelanggan</span></a></li>
+                    <li><a href="kategori.html">🏷️ <span>Kategori</span></a></li>
+                    <li><a href="laporan.html">📈 <span>Laporan</span></a></li>
+                    <li><a href="komentar.html">💬 <span>Komentar</span></a></li>
+                    <li><a href="pengaturan.html">⚙️ <span>Pengaturan</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div>
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <button class="toggle-sidebar">☰</button>
+
+                <div class="search-box">
+                    🔍 <input type="text" placeholder="Cari artikel...">
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="action-item">
+                        🔔 <span class="badge">3</span>
+                    </div>
+                    <div class="action-item">
+                        ✉️ <span class="badge">5</span>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="action-item">👤</div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item" onclick="goToAdmin()">Administrator</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="logout()">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">Kelola Artikel</h1>
+                    <div class="page-actions">
+                        <a href="#" class="btn btn-success" onclick="openAddArticleModal()">
+                            ➕ Tulis Artikel
+                        </a>
+                        <a href="#" class="btn btn-outline">
+                            📤 Export Data
+                        </a>
+                        <a href="#" class="btn btn-outline">
+                            📥 Import Data
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-title">Total Artikel</div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-change positive">↑ 8 artikel baru bulan ini</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-title">Artikel Terbit</div>
+                        <div class="stat-value">128</div>
+                        <div class="stat-change positive">↑ 82.1% dari total artikel</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📄</div>
+                        <div class="stat-title">Draft</div>
+                        <div class="stat-value">18</div>
+                        <div class="stat-change negative">↑ 5 draft menunggu review</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">👁️</div>
+                        <div class="stat-title">Total Views</div>
+                        <div class="stat-value">45.2K</div>
+                        <div class="stat-change positive">↑ 15.3% dibanding bulan lalu</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label>Kategori</label>
+                            <select id="categoryFilter">
+                                <option value="">Semua Kategori</option>
+                                <option value="budaya">Budaya</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="kuliner">Kuliner</option>
+                                <option value="seni">Seni</option>
+                                <option value="pariwisata">Pariwisata</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select id="statusFilter">
+                                <option value="">Semua Status</option>
+                                <option value="published">Terbit</option>
+                                <option value="draft">Draft</option>
+                                <option value="scheduled">Terjadwal</option>
+                                <option value="archived">Arsip</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Penulis</label>
+                            <select id="authorFilter">
+                                <option value="">Semua Penulis</option>
+                                <option value="admin">Admin</option>
+                                <option value="dewi">Dewi Pratiwi</option>
+                                <option value="andi">Andi Saputra</option>
+                                <option value="sari">Sari Indah</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Tanggal Dari</label>
+                            <input type="date" id="dateFrom">
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Tanggal Sampai</label>
+                            <input type="date" id="dateTo">
+                        </div>
+
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-primary" onclick="applyFilters()">🔍 Filter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Articles Table -->
+                <div class="articles-table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Daftar Artikel</h3>
+                        <div class="table-actions">
+                            <div class="bulk-actions">
+                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                <select id="bulkAction">
+                                    <option value="">Aksi Massal</option>
+                                    <option value="publish">Terbitkan</option>
+                                    <option value="draft">Jadikan Draft</option>
+                                    <option value="archive">Arsipkan</option>
+                                    <option value="delete">Hapus</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="executeBulkAction()">Jalankan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="articles-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllHeader"></th>
+                                <th>Artikel</th>
+                                <th>Kategori</th>
+                                <th>Penulis</th>
+                                <th>Status</th>
+                                <th>Views</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articlesTableBody">
+                            <tr>
+                                <td><input type="checkbox" class="article-checkbox" value="1"></td>
+                                <td>
+                                    <div class="article-info">
+                                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=60&fit=crop"
+                                            alt="Batik Indonesia" class="article-thumbnail">
+                                        <div class="article-details">
+                                            <h4>Melestarikan Keindahan Batik Indonesia: Warisan Budaya yang Mendunia
+                                            </h4>
+                                            <p>Batik merupakan salah satu warisan budaya Indonesia yang telah diakui
+                                                UNESCO sebagai Warisan Kemanusiaan untuk Budaya Lisan dan Nonbendawi...
+                                            </p>
+                                            <div class="article-meta">5 menit membaca • 15 April 2025</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="category-badge category-budaya">Budaya</span></td>
+                                <td>Dewi Pratiwi</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td><span class="views-count">2.4K</span></td>
+                                <td>15/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewArticle(1)">👁️</button>
+                                        <button class="action-btn edit" onclick="editArticle(1)">✏️</button>
+                                        <button class="action-btn duplicate" onclick="duplicateArticle(1)">📋</button>
+                                        <button class="action-btn delete" onclick="deleteArticle(1)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="article-checkbox" value="2"></td>
+                                <td>
+                                    <div class="article-info">
+                                        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=80&h=60&fit=crop"
+                                            alt="Tenun Ikat" class="article-thumbnail">
+                                        <div class="article-details">
+                                            <h4>Keunikan Tenun Ikat dari Berbagai Daerah di Indonesia</h4>
+                                            <p>Mengenal ragam tenun ikat yang menjadi warisan budaya tak benda Indonesia
+                                                dan keunikannya di setiap daerah...</p>
+                                            <div class="article-meta">3 menit membaca • 10 April 2025</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="category-badge category-budaya">Budaya</span></td>
+                                <td>Andi Saputra</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td><span class="views-count">1.8K</span></td>
+                                <td>10/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewArticle(2)">👁️</button>
+                                        <button class="action-btn edit" onclick="editArticle(2)">✏️</button>
+                                        <button class="action-btn duplicate" onclick="duplicateArticle(2)">📋</button>
+                                        <button class="action-btn delete" onclick="deleteArticle(2)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="article-checkbox" value="3"></td>
+                                <td>
+                                    <div class="article-info">
+                                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=80&h=60&fit=crop"
+                                            alt="Fashion Batik" class="article-thumbnail">
+                                        <div class="article-details">
+                                            <h4>Pesona Songket dalam Fashion Modern Indonesia</h4>
+                                            <p>Bagaimana songket, kain mewah berbahan emas dan perak ini, beradaptasi
+                                                dengan tren fashion kontemporer...</p>
+                                            <div class="article-meta">4 menit membaca • 5 April 2025</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="category-badge category-fashion">Fashion</span></td>
+                                <td>Sari Indah</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td><span class="views-count">3.1K</span></td>
+                                <td>05/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewArticle(3)">👁️</button>
+                                        <button class="action-btn edit" onclick="editArticle(3)">✏️</button>
+                                        <button class="action-btn duplicate" onclick="duplicateArticle(3)">📋</button>
+                                        <button class="action-btn delete" onclick="deleteArticle(3)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="article-checkbox" value="4"></td>
+                                <td>
+                                    <div class="article-info">
+                                        <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=80&h=60&fit=crop"
+                                            alt="Wayang Kulit" class="article-thumbnail">
+                                        <div class="article-details">
+                                            <h4>Wayang Kulit: Seni Pertunjukan yang Mendunia</h4>
+                                            <p>Menelusuri sejarah dan perkembangan wayang kulit sebagai seni pertunjukan
+                                                yang telah diakui UNESCO...</p>
+                                            <div class="article-meta">5 menit membaca • 1 April 2025</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="category-badge category-seni">Seni</span></td>
+                                <td>Dewi Pratiwi</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td><span class="views-count">1.5K</span></td>
+                                <td>01/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewArticle(4)">👁️</button>
+                                        <button class="action-btn edit" onclick="editArticle(4)">✏️</button>
+                                        <button class="action-btn duplicate" onclick="duplicateArticle(4)">📋</button>
+                                        <button class="action-btn delete" onclick="deleteArticle(4)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="article-checkbox" value="5"></td>
+                                <td>
+                                    <div class="article-info">
+                                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=80&h=60&fit=crop"
+                                            alt="Kuliner Tradisional" class="article-thumbnail">
+                                        <div class="article-details">
+                                            <h4>10 Kuliner Tradisional yang Wajib Dicoba di Indonesia</h4>
+                                            <p>Eksplorasi cita rasa nusantara melalui kuliner tradisional yang kaya akan
+                                                sejarah dan budaya lokal...</p>
+                                            <div class="article-meta">6 menit membaca • 28 Maret 2025</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="category-badge category-kuliner">Kuliner</span></td>
+                                <td>Andi Saputra</td>
+                                <td><span class="status-badge status-draft">Draft</span></td>
+                                <td><span class="views-count">0</span></td>
+                                <td>28/03/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewArticle(5)">👁️</button>
+                                        <button class="action-btn edit" onclick="editArticle(5)">✏️</button>
+                                        <button class="action-btn duplicate" onclick="duplicateArticle(5)">📋</button>
+                                        <button class="action-btn delete" onclick="deleteArticle(5)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="article-checkbox" value="6"></td>
+                                <td>
+                                    <div class="article-info">
+                                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=60&fit=crop"
+                                            alt="Destinasi Wisata" class="article-thumbnail">
+                                        <div class="article-details">
+                                            <h4>Destinasi Wisata Budaya Terbaik di Indonesia</h4>
+                                            <p>Jelajahi keindahan dan kekayaan budaya Indonesia melalui destinasi wisata
+                                                yang menawan dan bersejarah...</p>
+                                            <div class="article-meta">7 menit membaca • 25 Maret 2025</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="category-badge category-pariwisata">Pariwisata</span></td>
+                                <td>Sari Indah</td>
+                                <td><span class="status-badge status-scheduled">Terjadwal</span></td>
+                                <td><span class="views-count">0</span></td>
+                                <td>30/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewArticle(6)">👁️</button>
+                                        <button class="action-btn edit" onclick="editArticle(6)">✏️</button>
+                                        <button class="action-btn duplicate" onclick="duplicateArticle(6)">📋</button>
+                                        <button class="action-btn delete" onclick="deleteArticle(6)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Menampilkan 1-6 dari 156 artikel
+                        </div>
+                        <div class="pagination">
+                            <button disabled>‹ Sebelumnya</button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button>...</button>
+                            <button>26</button>
+                            <button>Selanjutnya ›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Article Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Tulis Artikel Baru</h3>
+                <span class="close" onclick="closeArticleModal()">&times;</span>
+            </div>
+            <form id="articleForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articleTitle">Judul Artikel</label>
+                        <input type="text" id="articleTitle" name="articleTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleSlug">Slug URL</label>
+                        <input type="text" id="articleSlug" name="articleSlug" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articleCategory">Kategori</label>
+                        <select id="articleCategory" name="articleCategory" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="budaya">Budaya</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="kuliner">Kuliner</option>
+                            <option value="seni">Seni</option>
+                            <option value="pariwisata">Pariwisata</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleAuthor">Penulis</label>
+                        <select id="articleAuthor" name="articleAuthor" required>
+                            <option value="admin">Admin</option>
+                            <option value="dewi">Dewi Pratiwi</option>
+                            <option value="andi">Andi Saputra</option>
+                            <option value="sari">Sari Indah</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="articleExcerpt">Ringkasan Artikel</label>
+                    <textarea id="articleExcerpt" name="articleExcerpt" rows="3"
+                        placeholder="Tulis ringkasan singkat artikel..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="articleThumbnail">Gambar Thumbnail</label>
+                    <div class="image-upload" onclick="document.getElementById('thumbnailInput').click()">
+                        <input type="file" id="thumbnailInput" accept="image/*" onchange="previewThumbnail(this)">
+                        <div id="uploadText">
+                            📷 Klik untuk upload gambar thumbnail<br>
+                            <small>Format: JPG, PNG, WebP (Max: 2MB)</small>
+                        </div>
+                        <img id="thumbnailPreview" class="image-preview" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="articleTags">Tags</label>
+                    <input type="text" id="articleTags" name="articleTags"
+                        placeholder="Pisahkan dengan koma (contoh: batik, tradisional, indonesia)">
+                </div>
+
+                <div class="form-group">
+                    <label for="articleContent">Konten Artikel</label>
+                    <div class="editor-toolbar">
+                        <button type="button" class="editor-btn"
+                            onclick="formatText('bold')"><strong>B</strong></button>
+                        <button type="button" class="editor-btn" onclick="formatText('italic')"><em>I</em></button>
+                        <button type="button" class="editor-btn" onclick="formatText('underline')"><u>U</u></button>
+                        <button type="button" class="editor-btn" onclick="formatText('insertOrderedList')">1.</button>
+                        <button type="button" class="editor-btn" onclick="formatText('insertUnorderedList')">•</button>
+                        <button type="button" class="editor-btn" onclick="formatText('createLink')">🔗</button>
+                        <button type="button" class="editor-btn" onclick="formatText('insertImage')">🖼️</button>
+                    </div>
+                    <div id="articleContent" class="content-editor" contenteditable="true"
+                        style="min-height: 300px; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0 0 4px 4px; outline: none;">
+                        <p>Mulai menulis artikel Anda di sini...</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="articleStatus">Status</label>
+                        <select id="articleStatus" name="articleStatus" required>
+                            <option value="draft">Draft</option>
+                            <option value="published">Terbit</option>
+                            <option value="scheduled">Terjadwal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="publishDate">Tanggal Terbit</label>
+                        <input type="datetime-local" id="publishDate" name="publishDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="metaDescription">Meta Description (SEO)</label>
+                    <textarea id="metaDescription" name="metaDescription" rows="2"
+                        placeholder="Deskripsi untuk mesin pencari (160 karakter)"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="saveDraft()">💾 Simpan Draft</button>
+                    <button type="button" class="btn btn-outline" onclick="previewArticle()">👁️ Preview</button>
+                    <button type="button" class="btn btn-outline" onclick="closeArticleModal()">Batal</button>
+                    <button type="submit" class="btn btn-primary">📝 Publikasikan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.toggle-sidebar').addEventListener('click', function () {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        });
+
+        // Article Modal Functions
+        function openAddArticleModal() {
+            document.getElementById('modalTitle').textContent = 'Tulis Artikel Baru';
+            document.getElementById('articleForm').reset();
+            document.getElementById('articleContent').innerHTML = '<p>Mulai menulis artikel Anda di sini...</p>';
+            document.getElementById('thumbnailPreview').style.display = 'none';
+            document.getElementById('uploadText').style.display = 'block';
+            document.getElementById('articleModal').style.display = 'block';
+        }
+
+        function editArticle(id) {
+            document.getElementById('modalTitle').textContent = 'Edit Artikel';
+            // Here you would populate the form with existing article data
+            document.getElementById('articleModal').style.display = 'block';
+        }
+
+        function closeArticleModal() {
+            document.getElementById('articleModal').style.display = 'none';
+        }
+
+        function viewArticle(id) {
+            window.open('detail-artikel.html?id=' + id, '_blank');
+        }
+
+        function duplicateArticle(id) {
+            if (confirm('Apakah Anda yakin ingin menduplikasi artikel ini?')) {
+                alert('Artikel ID ' + id + ' telah diduplikasi');
+                // Here you would make an API call to duplicate the article
+            }
+        }
+
+        function deleteArticle(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus artikel ini?')) {
+                alert('Artikel ID ' + id + ' telah dihapus');
+                // Here you would make an API call to delete the article
+            }
+        }
+
+        // Select All Functionality
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.article-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        }
+
+        // Bulk Actions
+        function executeBulkAction() {
+            const action = document.getElementById('bulkAction').value;
+            const selectedArticles = Array.from(document.querySelectorAll('.article-checkbox:checked')).map(cb => cb.value);
+
+            if (!action) {
+                alert('Pilih aksi yang ingin dilakukan');
+                return;
+            }
+
+            if (selectedArticles.length === 0) {
+                alert('Pilih minimal satu artikel');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin ${action} ${selectedArticles.length} artikel yang dipilih?`)) {
+                alert(`Aksi ${action} telah dilakukan pada ${selectedArticles.length} artikel`);
+                // Here you would make an API call to perform the bulk action
+            }
+        }
+
+        // Filter Functions
+        function applyFilters() {
+            const category = document.getElementById('categoryFilter').value;
+            const status = document.getElementById('statusFilter').value;
+            const author = document.getElementById('authorFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+
+            // Here you would filter the table based on the selected criteria
+            alert('Filter diterapkan: ' + JSON.stringify({ category, status, author, dateFrom, dateTo }));
+        }
+
+        // Rich Text Editor Functions
+        function formatText(command, value = null) {
+            document.execCommand(command, false, value);
+            document.getElementById('articleContent').focus();
+        }
+
+        // Thumbnail Preview
+        function previewThumbnail(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('thumbnailPreview').src = e.target.result;
+                    document.getElementById('thumbnailPreview').style.display = 'block';
+                    document.getElementById('uploadText').style.display = 'none';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Auto-generate slug from title
+        document.getElementById('articleTitle').addEventListener('input', function (e) {
+            const title = e.target.value;
+            const slug = title.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim('-');
+            document.getElementById('articleSlug').value = slug;
+        });
+
+        // Character counter for meta description
+        document.getElementById('metaDescription').addEventListener('input', function (e) {
+            const length = e.target.value.length;
+            const maxLength = 160;
+
+            if (length > maxLength) {
+                e.target.style.borderColor = 'var(--danger-color)';
+            } else if (length > maxLength * 0.8) {
+                e.target.style.borderColor = 'var(--warning-color)';
+            } else {
+                e.target.style.borderColor = 'var(--border-color)';
+            }
+        });
+
+        // Save Draft Function
+        function saveDraft() {
+            const formData = new FormData(document.getElementById('articleForm'));
+            formData.set('articleStatus', 'draft');
+
+            // Here you would make an API call to save as draft
+            alert('Artikel berhasil disimpan sebagai draft');
+        }
+
+        // Preview Article Function
+        function previewArticle() {
+            // Here you would open a preview window
+            alert('Membuka preview artikel...');
+        }
+
+        // Form Submission
+        document.getElementById('articleForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const content = document.getElementById('articleContent').innerHTML;
+            formData.append('content', content);
+
+            const articleData = Object.fromEntries(formData);
+
+            // Here you would make an API call to save the article
+            alert('Artikel berhasil dipublikasikan: ' + JSON.stringify(articleData));
+            closeArticleModal();
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('articleModal');
+            if (e.target === modal) {
+                closeArticleModal();
+            }
+        });
+
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#articlesTableBody tr');
+
+            rows.forEach(row => {
+                const articleTitle = row.querySelector('.article-details h4').textContent.toLowerCase();
+                const articleContent = row.querySelector('.article-details p').textContent.toLowerCase();
+
+                if (articleTitle.includes(searchTerm) || articleContent.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Auto-save functionality (every 30 seconds)
+        let autoSaveInterval;
+
+        function startAutoSave() {
+            autoSaveInterval = setInterval(() => {
+                if (document.getElementById('articleModal').style.display === 'block') {
+                    const title = document.getElementById('articleTitle').value;
+                    if (title.trim()) {
+                        console.log('Auto-saving article...');
+                        // Here you would make an API call to auto-save
+                    }
+                }
+            }, 30000);
+        }
+
+        function stopAutoSave() {
+            if (autoSaveInterval) {
+                clearInterval(autoSaveInterval);
+            }
+        }
+
+        // Start auto-save when modal opens
+        document.getElementById('articleModal').addEventListener('show', startAutoSave);
+        document.getElementById('articleModal').addEventListener('hide', stopAutoSave);
+
+        // Word count for content
+        document.getElementById('articleContent').addEventListener('input', function () {
+            const text = this.innerText || this.textContent;
+            const wordCount = text.trim().split(/\s+/).length;
+
+            // You could display word count somewhere in the UI
+            console.log('Word count:', wordCount);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            // Ctrl+S to save draft
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                if (document.getElementById('articleModal').style.display === 'block') {
+                    saveDraft();
+                }
+            }
+
+            // Ctrl+Enter to publish
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                if (document.getElementById('articleModal').style.display === 'block') {
+                    document.getElementById('articleForm').dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+
+        // Toggle dropdown
+        document.getElementById('userDropdown').addEventListener('click', function () {
+            this.classList.toggle('active');
+        });
+
+        // Fungsi aksi
+        function goToAdmin() {
+            window.location.href = '../admin/dashboard.html'; // sesuaikan path
+        }
+
+        function logout() {
+            localStorage.clear(); // contoh logout sederhana
+            window.location.href = '../userpage/login.html'; // arahkan ke halaman login
+        }
+    </script>
+</body>
+
+</html>

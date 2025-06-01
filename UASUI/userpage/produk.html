@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk - SouvenirStudio</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Variables - Same as homepage */
+        :root {
+            --primary-color: #002352;
+            --secondary-color: #51557E;
+            --dark-color: #1B2430;
+            --light-color: #bebebe;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --text-color: #212529;
+            --max-width: 1200px;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --border-radius-small: 8px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-color);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Header Styles - Same as homepage */
+        header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-small);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+            background: rgba(0, 35, 82, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            text-decoration: none;
+            color: var(--dark-color);
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .nav-buttons a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 1.5rem 0;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .breadcrumbs a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumbs span {
+            margin: 0 0.8rem;
+            color: #94a3b8;
+        }
+
+        /* Page Title */
+        .page-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+        }
+
+        .page-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Ccircle cx='49' cy='49' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .page-title h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-color);
+        }
+
+        .filter-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .filter-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .filter-group select,
+        .price-input,
+        .search-box {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--gray-color);
+            border-radius: var(--border-radius-small);
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .filter-group select:focus,
+        .price-input:focus,
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 35, 82, 0.1);
+        }
+
+        .price-range {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .price-input {
+            flex: 1;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-box {
+            flex: 1;
+        }
+
+        .search-btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            background: linear-gradient(135deg, #6b70a3, #1a4d8a);
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .product-image {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--accent-color), #ffdb4d);
+            color: var(--dark-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-discount {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .original-price {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+
+        .product-rating {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-rating span {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .product-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .view-btn {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: #f8fafc;
+            color: var(--dark-color);
+            border: 2px solid var(--gray-color);
+            border-radius: var(--border-radius-small);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .view-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .add-to-cart {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: var(--shadow-medium);
+            background: linear-gradient(135deg, #6b70a3, #1a4d8a);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+            gap: 0.5rem;
+        }
+
+        .page-item {
+            margin: 0;
+        }
+
+        .page-link {
+            width: 45px;
+            height: 45px;
+            border-radius: var(--border-radius-small);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            color: var(--dark-color);
+            text-decoration: none;
+            border: 2px solid var(--gray-color);
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .page-link:hover {
+            background: #f8fafc;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .page-link.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Footer - Same as homepage */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), #0f1419);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 400;
+            padding: 0.2rem 0;
+            display: inline-block;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .footer-bottom {
+            max-width: var(--max-width);
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .header-container {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .filter-options {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-item {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection styles */
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">Souvenir<span>Studio</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="produk.html">Produk</a></li>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <a href="search.html" class="search-icon">🔍</a>
+                <a href="keranjang.html" class="cart-icon">🛒</a>
+                <a href="login.html" class="user-icon">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumbs">
+            <a href="index.html">Beranda</a> <span>></span>
+            <a href="produk.html">Produk</a> <span>></span>
+            <span>Semua Produk</span>
+        </div>
+
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1>Katalog Produk Souvenir</h1>
+            <p>Temukan berbagai pilihan souvenir berkualitas dari SouvenirStudio. Dari batik premium hingga kerajinan
+                tangan khas Indonesia.</p>
+        </div>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <h2 class="filter-title">Filter Produk</h2>
+            <div class="filter-options">
+                <div class="filter-group">
+                    <label for="category">Kategori</label>
+                    <select id="category">
+                        <option value="">Semua Kategori</option>
+                        <option value="batik">Batik</option>
+                        <option value="kerajinan">Kerajinan Tangan</option>
+                        <option value="pajangan">Pajangan</option>
+                        <option value="aksesoris">Aksesoris</option>
+                        <option value="merchandise">Merchandise</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sort">Urutkan</label>
+                    <select id="sort">
+                        <option value="popular">Popularitas</option>
+                        <option value="newest">Terbaru</option>
+                        <option value="price-low">Harga: Rendah ke Tinggi</option>
+                        <option value="price-high">Harga: Tinggi ke Rendah</option>
+                        <option value="rating">Rating</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="search">Pencarian</label>
+                    <div class="search-container">
+                        <input type="text" class="search-box" placeholder="Cari produk..." id="search">
+                        <button class="search-btn">Cari</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Grid -->
+        <section class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98q-lq48t9608x7i33"
+                        alt="Batik Tulis Premium Motif Parang">
+                    <div class="product-tag">Premium</div>
+                    <div class="product-discount">-10%</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Batik</div>
+                    <h3 class="product-name">Batik Tulis Premium Motif Parang</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 850.000</span>
+                        <span class="original-price">Rp 950.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★★ <span>(12)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/98/MTA-112944158/no-brand_miniatur-borobudur-fiber_full01.jpg"
+                        alt="Miniatur Candi Borobudur">
+                    <div class="product-tag">Premium</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Miniatur</div>
+                    <h3 class="product-name">Miniatur Candi Borobudur</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 325.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★☆ <span>(8)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://martapura.org/cdn/shop/products/WhatsAppImage2022-06-28at06.34.30.jpg?v=1656955086"
+                        alt="Tas Anyaman Rotan Bali">
+                    <div class="product-discount">-15%</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Anyaman</div>
+                    <h3 class="product-name">Tas Anyaman Rotan Bali</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 275.000</span>
+                        <span class="original-price">Rp 325.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★☆ <span>(15)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.tokopedia.net/img/cache/700/VqbcmM/2021/4/15/83817645-45e7-4468-84f1-f4919b36670b.jpg"
+                        alt="Wayang Golek Arjuna">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Wayang</div>
+                    <h3 class="product-name">Wayang Golek Arjuna</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 450.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★★ <span>(9)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2024/6/23/0b4e27cd-0b7a-4312-890b-fcd321a2da66.jpg"
+                        alt="Kain Tenun Songket Palembang">
+                    <div class="product-tag">Premium</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Tenun</div>
+                    <h3 class="product-name">Kain Tenun Songket Palembang</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 1.250.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★★ <span>(6)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://img.lazcdn.com/g/p/d465541518f1a95848df45fa41227d81.jpg_720x720q80.jpg"
+                        alt="Gantungan Kunci Batik">
+                    <div class="product-discount">-20%</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Aksesoris</div>
+                    <h3 class="product-name">Set Gantungan Kunci Batik (5 pcs)</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 120.000</span>
+                        <span class="original-price">Rp 150.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★★ <span>(21)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.tokopedia.net/img/cache/700/VqbcmM/2023/8/14/8b5c5e5a-8b5c-4e5a-8b5c-5e5a8b5c4e5a.jpg"
+                        alt="Ukiran Kayu Jepara">
+                    <div class="product-tag">Premium</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Ukiran</div>
+                    <h3 class="product-name">Ukiran Kayu Jepara Tradisional</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 680.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★☆ <span>(11)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOkSEbtfE7gafKUiT5jHVYtI_anJYstBVPzA&s"
+                        alt="Anyaman Rotan Bali">
+                    <div class="product-discount">-12%</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Anyaman</div>
+                    <h3 class="product-name">Keranjang Anyaman Rotan Set</h3>
+                    <div class="product-price">
+                        <span class="current-price">Rp 185.000</span>
+                        <span class="original-price">Rp 210.000</span>
+                    </div>
+                    <div class="product-rating">
+                        ★★★★☆ <span>(14)</span>
+                    </div>
+                    <div class="product-action">
+                        <a href="detail-produk.html" class="view-btn">Detail</a>
+                        <button class="add-to-cart">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="productList" class="product-grid"></div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="page-item">
+                <a href="#" class="page-link active">1</a>
+            </div>
+            <div class="page-item">
+                <a href="#" class="page-link">2</a>
+            </div>
+            <div class="page-item">
+                <a href="#" class="page-link">3</a>
+            </div>
+            <div class="page-item">
+                <a href="#" class="page-link">4</a>
+            </div>
+            <div class="page-item">
+                <a href="#" class="page-link">5</a>
+            </div>
+            <div class="page-item">
+                <a href="#" class="page-link">→</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>SouvenirStudio</h4>
+                <ul>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                    <li><a href="karir.html">Karir</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="syarat.html">Syarat & Ketentuan</a></li>
+                    <li><a href="kebijakan.html">Kebijakan Privasi</a></li>
+                    <li><a href="pengiriman.html">Informasi Pengiriman</a></li>
+                    <li><a href="pembayaran.html">Metode Pembayaran</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kategori Artikel</h4>
+                <ul>
+                    <li><a href="artikel-kategori.html?kat=tradisional">Kerajinan Tradisional</a></li>
+                    <li><a href="artikel-kategori.html?kat=modern">Souvenir Modern</a></li>
+                    <li><a href="artikel-kategori.html?kat=budaya">Budaya Indonesia</a></li>
+                    <li><a href="artikel-kategori.html?kat=tips">Tips & Panduan</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kontak Kami</h4>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    <span>info@souvenir-studio.com</span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                        </path>
+                    </svg>
+                    <span>+62 812 3456 7890</span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span>Jl. Kerajinan No. 123, Jakarta</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 SouvenirStudio. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const productList = document.getElementById('productList');
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+
+            productList.innerHTML = '';
+            products.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                card.innerHTML = `
+            <div class="product-image">
+                <img src="${product.productImage || 'https://via.placeholder.com/300'}" alt="${product.productName}">
+                <div class="product-discount">-12%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-category">${product.productCategory}</div>
+                <h3 class="product-name">${product.productName}</h3>
+                <div class="product-price">
+                    <span class="current-price">Rp ${product.productPrice}</span>
+                    <span class="original-price">Rp ${(parseInt(product.productPrice.replace(/\D/g, '')) * 1.1).toLocaleString('id-ID')}</span>
+                </div>
+                <div class="product-rating">
+                    ★★★★☆ <span>(14)</span>
+                </div>
+                <div class="product-action">
+                    <a href="detail-produk.html" class="view-btn">Detail</a>
+                    <button class="add-to-cart">+</button>
+                    <button class="delete-product" onclick="deleteProduct(${index})">🗑️</button>
+                </div>
+            </div>
+        `;
+                productList.appendChild(card);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
+
+<!-- function deleteProduct(index) {
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            if (confirm('Yakin ingin menghapus produk ini?')) {
+                products.splice(index, 1);
+                localStorage.setItem('products', JSON.stringify(products));
+                location.reload();
+            }
+        } -->

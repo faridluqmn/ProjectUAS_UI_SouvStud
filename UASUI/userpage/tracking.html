@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lacak Pengiriman - SouvenirStudio</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Variables - Same as previous pages */
+        :root {
+            --primary-color: #002352;
+            --secondary-color: #51557E;
+            --dark-color: #1B2430;
+            --light-color: #bebebe;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --text-color: #212529;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --warning-color: #f59e0b;
+            --max-width: 1200px;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --border-radius-small: 8px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-color);
+            line-height: 1.7;
+            font-weight: 400;
+            min-height: 100vh;
+        }
+
+        /* Header Styles - Same as previous pages */
+        header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-small);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+            background: rgba(0, 35, 82, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            text-decoration: none;
+            color: var(--dark-color);
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .nav-buttons a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 1.5rem 0;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .breadcrumbs a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumbs span {
+            margin: 0 0.8rem;
+            color: #94a3b8;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Ccircle cx='49' cy='49' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .page-header h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tracking-number {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius-small);
+            font-weight: 600;
+            margin-top: 1.5rem;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+            font-size: 1.1rem;
+        }
+
+        /* Tracking Layout */
+        .tracking-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Main Tracking Content */
+        .tracking-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Status Card */
+        .status-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .status-header {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .status-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .status-body {
+            padding: 2rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .status-item {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: var(--border-radius-small);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .status-item:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        .status-item-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .status-item-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-item-value {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 1rem;
+        }
+
+        /* Timeline Card */
+        .timeline-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .timeline-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-color);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.75rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--success-color), var(--gray-color));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--success-color);
+            border: 4px solid white;
+            box-shadow: 0 0 0 3px var(--success-color);
+            z-index: 2;
+        }
+
+        .timeline-dot.active {
+            background: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-color);
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 0 3px var(--primary-color); }
+            50% { box-shadow: 0 0 0 6px rgba(0, 35, 82, 0.3); }
+        }
+
+        .timeline-dot.pending {
+            background: var(--gray-color);
+            box-shadow: 0 0 0 3px var(--gray-color);
+        }
+
+        .timeline-content {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: var(--border-radius-small);
+            border-left: 4px solid var(--success-color);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .timeline-content.active {
+            border-left-color: var(--primary-color);
+            background: rgba(0, 35, 82, 0.05);
+        }
+
+        .timeline-content.pending {
+            border-left-color: var(--gray-color);
+            opacity: 0.7;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .timeline-event {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+
+        .timeline-time {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .timeline-location {
+            font-size: 0.95rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .tracking-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-color);
+            position: relative;
+        }
+
+        .info-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: #f8fafc;
+            border-radius: var(--border-radius-small);
+            transition: var(--transition);
+        }
+
+        .info-row:hover {
+            background: #f1f5f9;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 0.95rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--dark-color);
+            text-align: right;
+        }
+
+        /* Map Card */
+        .map-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .map-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-color);
+        }
+
+        .map-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .map-subtitle {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .map-container {
+            height: 250px;
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: var(--info-color);
+        }
+
+        .map-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .map-text {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-location {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Contact Card */
+        .contact-card {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #f59e0b;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-desc {
+            font-size: 0.95rem;
+            color: #92400e;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius-small);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-width: 120px;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+        }
+
+        .btn-phone {
+            background: white;
+            color: #92400e;
+            border: 2px solid #f59e0b;
+        }
+
+        .btn-phone:hover {
+            background: #f59e0b;
+            color: white;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius-small);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: center;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark-color);
+            border: 2px solid var(--gray-color);
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 35, 82, 0.05);
+        }
+
+        /* Refresh Button */
+        .refresh-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-medium);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-3px) rotate(180deg);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        /* Footer - Same as previous pages */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), #0f1419);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 400;
+            padding: 0.2rem 0;
+            display: inline-block;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .footer-bottom {
+            max-width: var(--max-width);
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .tracking-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .tracking-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .header-container {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline::before {
+                left: 0.5rem;
+            }
+
+            .timeline-dot {
+                left: -1.5rem;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .refresh-btn {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-column h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .contact-item {
+                justify-content: center;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection styles */
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Print styles */
+        @media print {
+            header, footer, .refresh-btn, .contact-card {
+                display: none;
+            }
+            
+            .tracking-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header {
+                background: none !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">Souvenir<span>Studio</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="produk.html">Produk</a></li>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <a href="search.html" class="search-icon">🔍</a>
+                <a href="keranjang.html" class="cart-icon">
+                    🛒
+                    <span class="cart-badge" id="cartBadge">3</span>
+                </a>
+                <a href="login.html" class="user-icon">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumbs">
+            <a href="index.html">Beranda</a> <span>></span>
+            <a href="riwayat-pesanan.html">Riwayat Pesanan</a> <span>></span>
+            <span>Lacak Pengiriman</span>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Lacak Pengiriman</h1>
+            <p>Pantau status pengiriman pesanan Anda secara real-time</p>
+            <div class="tracking-number">Nomor Resi: JNE123456789</div>
+        </div>
+
+        <!-- Tracking Layout -->
+        <div class="tracking-layout">
+            <!-- Main Tracking Content -->
+            <div class="tracking-main">
+                <!-- Status Card -->
+                <div class="status-card">
+                    <div class="status-header">
+                        <div class="status-icon">🚚</div>
+                        <div class="status-title">Paket Sedang Dalam Perjalanan</div>
+                        <div class="status-subtitle">Estimasi tiba: 18-19 Desember 2024</div>
+                    </div>
+                    <div class="status-body">
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <div class="status-item-icon">📦</div>
+                                <div class="status-item-label">Status Paket</div>
+                                <div class="status-item-value">Dalam Pengiriman</div>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-item-icon">📍</div>
+                                <div class="status-item-label">Lokasi Terakhir</div>
+                                <div class="status-item-value">Sortir Bandung</div>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-item-icon">🕒</div>
+                                <div class="status-item-label">Update Terakhir</div>
+                                <div class="status-item-value">17 Des, 08:15</div>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-item-icon">🎯</div>
+                                <div class="status-item-label">Estimasi Tiba</div>
+                                <div class="status-item-value">18-19 Des 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Card -->
+                <div class="timeline-card">
+                    <h2 class="timeline-title">
+                        <svg class="timeline-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Riwayat Pengiriman
+                    </h2>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot active"></div>
+                            <div class="timeline-content active">
+                                <div class="timeline-header">
+                                    <div class="timeline-event">Paket sedang dalam perjalanan</div>
+                                    <div class="timeline-time">17 Des 2024, 08:15 WIB</div>
+                                </div>
+                                <div class="timeline-location">📍 Sortir Bandung, Jawa Barat</div>
+                                <div class="timeline-desc">Paket telah berangkat dari Sortir Bandung menuju alamat penerima. Kurir akan segera menghubungi Anda untuk konfirmasi pengiriman.</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <div class="timeline-event">Paket telah tiba di kota tujuan</div>
+                                    <div class="timeline-time">17 Des 2024, 02:30 WIB</div>
+                                </div>
+                                <div class="timeline-location">📍 Sortir Bandung, Jawa Barat</div>
+                                <div class="timeline-desc">Paket telah tiba di fasilitas sortir Bandung dan sedang diproses untuk pengiriman ke alamat tujuan.</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <div class="timeline-event">Paket dalam proses pengiriman antar kota</div>
+                                    <div class="timeline-time">16 Des 2024, 19:45 WIB</div>
+                                </div>
+                                <div class="timeline-location">📍 Hub Jakarta, DKI Jakarta</div>
+                                <div class="timeline-desc">Paket telah berangkat dari Jakarta menuju Bandung menggunakan armada transportasi JNE.</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <div class="timeline-event">Paket telah diterima oleh kurir</div>
+                                    <div class="timeline-time">16 Des 2024, 14:20 WIB</div>
+                                </div>
+                                <div class="timeline-location">📍 Counter JNE Jakarta Pusat</div>
+                                <div class="timeline-desc">Paket telah diterima oleh kurir JNE di Jakarta Pusat dan siap untuk dikirim ke kota tujuan.</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <div class="timeline-event">Pesanan telah dikemas dan siap kirim</div>
+                                    <div class="timeline-time">16 Des 2024, 10:05 WIB</div>
+                                </div>
+                                <div class="timeline-location">📍 SouvenirStudio Warehouse, Jakarta</div>
+                                <div class="timeline-desc">Pesanan telah dikemas dengan aman dan diserahkan kepada kurir untuk proses pengiriman.</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <div class="timeline-event">Pesanan sedang diproses</div>
+                                    <div class="timeline-time">15 Des 2024, 16:30 WIB</div>
+                                </div>
+                                <div class="timeline-location">📍 SouvenirStudio Warehouse, Jakarta</div>
+                                <div class="timeline-desc">Pembayaran telah dikonfirmasi dan pesanan sedang diproses untuk pengiriman.</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <div class="timeline-event">Pesanan berhasil dibuat</div>
+                                    <div class="timeline-time">15 Des 2024, 10:15 WIB</div>
+                                </div>
+                                <div class="timeline-location">📍 Online Order System</div>
+                                <div class="timeline-desc">Pesanan #SS-2024-009876 berhasil dibuat dan menunggu konfirmasi pembayaran.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="riwayat-pesanan.html" class="btn btn-secondary">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Kembali ke Riwayat
+                    </a>
+                    <button class="btn btn-outline" onclick="window.print()">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                        </svg>
+                        Cetak Tracking
+                    </button>
+                    <a href="produk.html" class="btn btn-primary">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        Belanja Lagi
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="tracking-sidebar">
+                <!-- Order Info -->
+                <div class="info-card">
+                    <h3 class="info-title">Informasi Pesanan</h3>
+                    <div class="info-row">
+                        <span class="info-label">Nomor Pesanan</span>
+                        <span class="info-value">#SS-2024-009876</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tanggal Pesanan</span>
+                        <span class="info-value">15 Des 2024</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Total Pesanan</span>
+                        <span class="info-value">Rp 1.450.000</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Jumlah Item</span>
+                        <span class="info-value">2 Produk</span>
+                    </div>
+                </div>
+
+                <!-- Shipping Info -->
+                <div class="info-card">
+                    <h3 class="info-title">Informasi Pengiriman</h3>
+                    <div class="info-row">
+                        <span class="info-label">Kurir</span>
+                        <span class="info-value">JNE Regular</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Nomor Resi</span>
+                        <span class="info-value">JNE123456789</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Penerima</span>
+                        <span class="info-value">Budi Santoso</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Alamat</span>
+                        <span class="info-value">Jl. Sudirman No. 123<br>Bandung, Jawa Barat</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Telepon</span>
+                        <span class="info-value">+62 812 3456 7890</span>
+                    </div>
+                </div>
+
+                <!-- Map Card -->
+                <div class="map-card">
+                    <div class="map-header">
+                        <div class="map-title">Lokasi Paket</div>
+                        <div class="map-subtitle">Posisi terakhir paket Anda</div>
+                    </div>
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            <div class="map-icon">🗺️</div>
+                            <div class="map-text">Peta Lokasi Real-time</div>
+                            <div class="map-location">Sortir Bandung, Jawa Barat</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Support -->
+                <div class="contact-card">
+                    <div class="contact-title">
+                        📞 Butuh Bantuan?
+                    </div>
+                    <div class="contact-desc">
+                        Hubungi customer service kami jika ada pertanyaan tentang pengiriman atau pesanan Anda.
+                    </div>
+                    <div class="contact-buttons">
+                        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20menanyakan%20status%20pengiriman%20dengan%20nomor%20resi%20JNE123456789" class="contact-btn btn-whatsapp">
+                            📱 WhatsApp
+                        </a>
+                        <a href="tel:+6281234567890" class="contact-btn btn-phone">
+                            📞 Telepon
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Refresh Button -->
+    <button class="refresh-btn" onclick="refreshTracking()" title="Refresh Status">
+        🔄
+    </button>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>SouvenirStudio</h4>
+                <ul>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                    <li><a href="karir.html">Karir</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="syarat.html">Syarat & Ketentuan</a></li>
+                    <li><a href="kebijakan.html">Kebijakan Privasi</a></li>
+                    <li><a href="pengiriman.html">Informasi Pengiriman</a></li>
+                    <li><a href="pembayaran.html">Metode Pembayaran</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kategori Produk</h4>
+                <ul>
+                    <li><a href="kategori-batik.html">Batik</a></li>
+                    <li><a href="kategori-tenun.html">Tenun</a></li>
+                    <li><a href="kategori-kerajinan.html">Kerajinan Tangan</a></li>
+                    <li><a href="kategori-aksesoris.html">Aksesoris</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kontak Kami</h4>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>info@souvenir-studio.com</span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    <span>+62 812 3456 7890</span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span>Jl. Kerajinan No. 123, Jakarta</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 SouvenirStudio. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get tracking number from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderNumber = urlParams.get('order');
+            const trackingNumber = urlParams.get('resi');
+
+            if (trackingNumber) {
+                document.querySelector('.tracking-number').textContent = `Nomor Resi: ${trackingNumber}`;
+            }
+
+            // Auto-refresh tracking data every 30 seconds
+            let refreshInterval;
+            
+            function startAutoRefresh() {
+                refreshInterval = setInterval(() => {
+                    refreshTracking(false); // Silent refresh
+                }, 30000);
+            }
+
+            function stopAutoRefresh() {
+                if (refreshInterval) {
+                    clearInterval(refreshInterval);
+                }
+            }
+
+            // Refresh tracking function
+            window.refreshTracking = function(showLoading = true) {
+                const refreshBtn = document.querySelector('.refresh-btn');
+                const statusIcon = document.querySelector('.status-icon');
+                
+                if (showLoading) {
+                    refreshBtn.style.transform = 'translateY(-3px) rotate(360deg)';
+                    statusIcon.style.animation = 'pulse 1s infinite';
+                }
+
+                // Simulate API call
+                setTimeout(() => {
+                    if (showLoading) {
+                        refreshBtn.style.transform = '';
+                        statusIcon.style.animation = 'pulse 2s infinite';
+                        
+                        // Show success feedback
+                        const originalIcon = refreshBtn.innerHTML;
+                        refreshBtn.innerHTML = '✓';
+                        refreshBtn.style.background = 'var(--success-color)';
+                        
+                        setTimeout(() => {
+                            refreshBtn.innerHTML = originalIcon;
+                            refreshBtn.style.background = '';
+                        }, 2000);
+                    }
+
+                    // In a real application, this would update the tracking data
+                    console.log('Tracking data refreshed');
+                }, 1000);
+            };
+
+            // Start auto-refresh
+            startAutoRefresh();
+
+            // Stop auto-refresh when page is not visible
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    stopAutoRefresh();
+                } else {
+                    startAutoRefresh();
+                }
+            });
+
+            // Enhanced timeline interactions
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(10px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+
+            // Status item hover effects
+            const statusItems = document.querySelectorAll('.status-item');
+            statusItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-2px) scale(1)';
+                });
+            });
+
+            // Copy tracking number functionality
+            const trackingNumberElement = document.querySelector('.tracking-number');
+            trackingNumberElement.addEventListener('click', function() {
+                const trackingText = this.textContent.replace('Nomor Resi: ', '');
+                navigator.clipboard.writeText(trackingText).then(function() {
+                    // Show success feedback
+                    const original = trackingNumberElement.textContent;
+                    trackingNumberElement.textContent = 'Nomor resi disalin!';
+                    trackingNumberElement.style.background = 'rgba(16, 185, 129, 0.2)';
+                    
+                    setTimeout(() => {
+                        trackingNumberElement.textContent = original;
+                        trackingNumberElement.style.background = '';
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Could not copy text: ', err);
+                });
+            });
+
+            // Smooth scroll to timeline when page loads
+            setTimeout(() => {
+                const timelineCard = document.querySelector('.timeline-card');
+                if (timelineCard) {
+                    timelineCard.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            }, 1000);
+
+            // Notification permission and updates
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted');
+                    }
+                });
+            }
+
+            // Simulate tracking updates
+            function simulateTrackingUpdate() {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification('Update Pengiriman', {
+                        body: 'Paket Anda telah sampai di lokasi baru',
+                        icon: '/favicon.ico'
+                    });
+                }
+            }
+
+            // WhatsApp integration with tracking info
+            const whatsappLinks = document.querySelectorAll('a[href*="wa.me"]');
+            whatsappLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const trackingNum = trackingNumber || 'JNE123456789';
+                    const orderNum = orderNumber || 'SS-2024-009876';
+                    const message = `Halo, saya ingin menanyakan status pengiriman dengan nomor resi ${trackingNum} untuk pesanan ${orderNum}`;
+                    const encodedMessage = encodeURIComponent(message);
+                    this.href = `https://wa.me/6281234567890?text=${encodedMessage}`;
+                });
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // R key to refresh
+                if (e.key === 'r' || e.key === 'R') {
+                    if (!e.ctrlKey && !e.metaKey) {
+                        e.preventDefault();
+                        refreshTracking();
+                    }
+                }
+                
+                // P key to print
+                if (e.key === 'p' || e.key === 'P') {
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        window.print();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

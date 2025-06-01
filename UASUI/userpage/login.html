@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SouvenirStudio</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Variables */
+        :root {
+            --primary-color: #020072;
+            --secondary-color: #000f66;
+            --dark-color: #000f3a;
+            --light-color: #F8F9FA;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --text-color: #212529;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+            --max-width: 1200px;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-buttons a {
+            margin-left: 1rem;
+            text-decoration: none;
+            color: var(--dark-color);
+        }
+        
+        .cart-icon, .user-icon, .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: var(--max-width);
+            margin: 1rem auto;
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb-separator {
+            margin: 0 0.5rem;
+            color: #6c757d;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+        
+        /* Login Container */
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .login-image {
+            flex: 1;
+            background-image: url('/api/placeholder/600/800?text=Batik+Indonesia');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            color: white;
+            position: relative;
+        }
+        
+        .login-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        }
+        
+        .login-image-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-image h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .login-image p {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-form-container {
+            flex: 1;
+            padding: 3rem 2rem;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-header h1 {
+            color: var(--dark-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(2, 0, 114, 0.25);
+            outline: none;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-check-input {
+            margin-right: 0.5rem;
+        }
+        
+        .form-check-label {
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .forgot-password {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-size: 1rem;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            color: #6c757d;
+        }
+        
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .login-divider span {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .social-btn:hover {
+            background-color: var(--gray-color);
+        }
+        
+        .social-icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            color: #6c757d;
+        }
+        
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert Messages */
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+        
+        .alert-success {
+            background-color: #d1e7dd;
+            border-color: #a3cfbb;
+            color: var(--success-color);
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f1aeb5;
+            color: var(--danger-color);
+        }
+        
+        .alert-close {
+            float: right;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1rem;
+        }
+        
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .login-container {
+                flex-direction: column;
+            }
+            
+            .login-image {
+                display: none;
+            }
+            
+            .social-login {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">Souvenir<span>Studio</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="produk.html">Produk</a></li>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <a href="search.html" class="search-icon">🔍</a>
+                <a href="keranjang.html" class="cart-icon">🛒</a>
+                <a href="login.html" class="user-icon">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">Beranda</a>
+        <span class="breadcrumb-separator">></span>
+        Login
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="login-container">
+            <div class="login-image">
+                <div class="login-image-content">
+                    <h2>Selamat Datang di SouvenirStudio</h2>
+                    <p>Temukan keindahan budaya Indonesia melalui berbagai produk kerajinan tangan berkualitas dan artikel menarik tentang warisan budaya nusantara.</p>
+                </div>
+            </div>
+            <div class="login-form-container">
+                <div class="login-header">
+                    <h1>Masuk</h1>
+                    <p>Masuk ke akun Anda untuk akses penuh ke SouvenirStudio</p>
+                </div>
+                
+                <!-- Alert Messages -->
+                <div class="alert alert-success" id="success-alert" style="display: none;">
+                    <span class="alert-close" onclick="closeAlert('success-alert')">×</span>
+                    Login berhasil! Mengalihkan ke dashboard...
+                </div>
+                
+                <div class="alert alert-danger" id="error-alert" style="display: none;">
+                    <span class="alert-close" onclick="closeAlert('error-alert')">×</span>
+                    Username/Email atau password salah. Silakan coba lagi.
+                </div>
+                
+                <!-- Unified Login Form -->
+                <form id="login-form" onsubmit="return loginUser(event)">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username atau Email</label>
+                        <input type="text" id="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="login-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" class="form-check-input">
+                            <label for="remember" class="form-check-label">Ingat saya</label>
+                        </div>
+                        <a href="#" class="forgot-password">Lupa password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Masuk</button>
+                </form>
+                
+                <div class="login-divider">
+                    <span>atau masuk dengan</span>
+                </div>
+                
+                <div class="social-login">
+                    <button class="social-btn">
+                        <span class="social-icon">G</span>
+                        Google
+                    </button>
+                    <button class="social-btn">
+                        <span class="social-icon">f</span>
+                        Facebook
+                    </button>
+                </div>
+                
+                <div class="register-link">
+                    Belum punya akun? <a href="register.html">Daftar sekarang</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>© 2025 SouvenirStudio. Hak Cipta Dilindungi. Dibuat dengan ❤️ di Indonesia.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to close alert messages
+        function closeAlert(alertId) {
+            document.getElementById(alertId).style.display = 'none';
+        }
+        
+        // Function to handle user login
+        function loginUser(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation - for demo purposes only
+            // In a real application, you would send this data to your server
+            
+            // Demo credentials for testing
+            if (username === 'admin' && password === 'admin123') {
+                // Show success message for admin
+                document.getElementById('success-alert').innerText = 'Login admin berhasil! Mengalihkan ke dashboard admin...';
+                document.getElementById('success-alert').style.display = 'block';
+                
+                // Reset error message if shown
+                document.getElementById('error-alert').style.display = 'none';
+                
+                // Simulate redirect after 2 seconds
+                setTimeout(() => {
+                    // Redirect to admin dashboard
+                    window.location.href = '../admin/dashboard.html';
+                }, 2000);
+            } 
+            else if (username === 'user@example.com' && password === 'user123') {
+                // Show success message for regular user
+                document.getElementById('success-alert').innerText = 'Login berhasil! Mengalihkan ke halaman pelanggan...';
+                document.getElementById('success-alert').style.display = 'block';
+                
+                // Reset error message if shown
+                document.getElementById('error-alert').style.display = 'none';
+                
+                // Simulate redirect after 2 seconds
+                setTimeout(() => {
+                    // Redirect to user dashboard
+                    window.location.href = 'index.html';
+                }, 2000);
+            } 
+            else {
+                // Show error message
+                document.getElementById('error-alert').style.display = 'block';
+                
+                // Reset success message if shown
+                document.getElementById('success-alert').style.display = 'none';
+            }
+            
+            return false;
+        }
+    </script>
+</body>
+</html>

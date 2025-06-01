@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melestarikan Keindahan Batik Indonesia - SouvenirStudio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color: #002352;
+            --secondary-color: #51557E;
+            --dark-color: #1B2430;
+            --light-color: #bebebe;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --text-color: #212529;
+            --max-width: 1200px;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --border-radius-small: 8px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-color);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-small);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+            background: rgba(0, 35, 82, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            text-decoration: none;
+            color: var(--dark-color);
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .nav-buttons a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: var(--max-width);
+            margin: 1.5rem auto;
+            padding: 0 2rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--secondary-color);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 0.8rem;
+            color: #94a3b8;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: var(--max-width);
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+        }
+
+        /* Article Content */
+        .article-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+        }
+
+        .article-header {
+            padding: 3rem 3rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            position: relative;
+        }
+
+        .article-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Ccircle cx='49' cy='49' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .article-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .article-author {
+            display: flex;
+            align-items: center;
+            margin-right: 2rem;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 0.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .meta-separator {
+            margin: 0 1rem;
+            opacity: 0.6;
+        }
+
+        .article-content-wrapper {
+            padding: 3rem;
+        }
+
+        .article-featured-image {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        .article-content p {
+            margin-bottom: 1.8rem;
+        }
+
+        .article-content h2 {
+            font-size: 2rem;
+            margin: 3rem 0 1.5rem;
+            color: var(--dark-color);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .article-content h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .article-content h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 1.5rem 0 2rem 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .article-content ul li::before {
+            content: '•';
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
+            position: relative;
+        }
+
+        .article-content blockquote::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary-color);
+            position: absolute;
+            top: -0.5rem;
+            left: 1rem;
+            opacity: 0.3;
+        }
+
+        .article-tags {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .article-tag {
+            padding: 0.5rem 1.2rem;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            color: var(--dark-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 35, 82, 0.1);
+        }
+
+        .article-tag:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .share-buttons {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .share-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-right: 1rem;
+        }
+
+        .share-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 35, 82, 0.1);
+        }
+
+        .share-btn:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .author-bio {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 35, 82, 0.1);
+            display: flex;
+            gap: 2rem;
+        }
+
+        .author-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .author-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+
+        .author-info p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .author-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .author-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+        }
+
+        .author-social a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--gray-color);
+        }
+
+        .comments-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+
+        .comment {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 35, 82, 0.1);
+            transition: var(--transition);
+        }
+
+        .comment:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .comment-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            border: 2px solid white;
+            box-shadow: var(--shadow-light);
+        }
+
+        .comment-name {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .comment-date {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .comment-content {
+            color: #374151;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .comment-action {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .comment-action:hover {
+            color: var(--secondary-color);
+        }
+
+        .comment-form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(0, 35, 82, 0.1);
+        }
+
+        .comment-form h3 {
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid #d1d5db;
+            border-radius: var(--border-radius-small);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 35, 82, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(0, 35, 82, 0.1);
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .widget-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .search-form {
+            display: flex;
+            border-radius: var(--border-radius-small);
+            overflow: hidden;
+            border: 1px solid #d1d5db;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .search-btn {
+            padding: 1rem 1.2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+        }
+
+        .popular-posts {
+            list-style: none;
+        }
+
+        .popular-post {
+            display: flex;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-color);
+            transition: var(--transition);
+        }
+
+        .popular-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .popular-post:hover {
+            transform: translateX(5px);
+        }
+
+        .post-thumb {
+            width: 80px;
+            height: 60px;
+            border-radius: var(--border-radius-small);
+            object-fit: cover;
+            margin-right: 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .post-info h5 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .post-info h5 a {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .post-info h5 a:hover {
+            color: var(--primary-color);
+        }
+
+        .post-date {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .categories {
+            list-style: none;
+        }
+
+        .category-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-color);
+        }
+
+        .category-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .category-item a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+        }
+
+        .category-item a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .category-count {
+            background: linear-gradient(135deg, var(--gray-color), #dee2e6);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-widget {
+            text-align: center;
+        }
+
+        .featured-product img {
+            width: 100%;
+            border-radius: var(--border-radius-small);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .product-title {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .product-title a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .product-title a:hover {
+            color: var(--primary-color);
+        }
+
+        .product-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .view-product {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius-small);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .view-product:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tag-cloud a {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            color: var(--dark-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 35, 82, 0.1);
+        }
+
+        .tag-cloud a:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Related Articles */
+        .related-articles {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--gray-color);
+        }
+
+        .related-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .related-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 35, 82, 0.1);
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .article-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .article-card:hover .article-card-img {
+            transform: scale(1.05);
+        }
+
+        .article-card-content {
+            padding: 2rem;
+        }
+
+        .article-card-category {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .article-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .article-card-title a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .article-card-title a:hover {
+            color: var(--primary-color);
+        }
+
+        .article-card-excerpt {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .article-card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), #0f1419);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 400;
+            padding: 0.2rem 0;
+            display: inline-block;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-column ul li:has(a[href*="@"]) a::before,
+        .footer-column ul li:has(a[href*="+"]) a::before,
+        .footer-column ul li:has(a[href*="Jl."]) a::before {
+            margin-right: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .footer-column ul li:has(a[href*="@"]) a::before {
+            content: "✉️";
+        }
+
+        .footer-column ul li:has(a[href*="+"]) a::before {
+            content: "📱";
+        }
+
+        .footer-column ul li:has(a[href*="Jl."]) a::before {
+            content: "🏢";
+        }
+
+        .footer-bottom {
+            max-width: var(--max-width);
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #9ca3af;
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .header-container {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+            }
+
+            .article-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .article-content-wrapper {
+                padding: 2rem 1.5rem;
+            }
+
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .author-bio {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .author-social {
+                justify-content: center;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection styles */
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">Souvenir<span>Studio</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="produk.html">Produk</a></li>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <a href="search.html" class="search-icon">🔍</a>
+                <a href="keranjang.html" class="cart-icon">🛒</a>
+                <a href="login.html" class="user-icon">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">Beranda</a>
+        <span class="breadcrumb-separator">></span>
+        <a href="artikel.html">Artikel</a>
+        <span class="breadcrumb-separator">></span>
+        Melestarikan Keindahan Batik Indonesia
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Article Content -->
+        <div class="article-container">
+            <div class="article-header">
+                <span class="article-category">Budaya</span>
+                <h1 class="article-title">Melestarikan Keindahan Batik Indonesia: Warisan Budaya yang Mendunia</h1>
+                <div class="article-meta">
+                    <div class="article-author">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face" alt="Dewi Pratiwi" class="author-avatar">
+                        <span>Oleh Dewi Pratiwi</span>
+                    </div>
+                    <span class="meta-separator">|</span>
+                    <span>15 April 2025</span>
+                    <span class="meta-separator">|</span>
+                    <span>5 menit membaca</span>
+                </div>
+            </div>
+
+            <div class="article-content-wrapper">
+                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=600&fit=crop" alt="Batik Indonesia" class="article-featured-image">
+
+                <div class="article-content">
+                    <p>Batik merupakan salah satu warisan budaya Indonesia yang telah diakui UNESCO sebagai Warisan Kemanusiaan untuk Budaya Lisan dan Nonbendawi (Masterpieces of the Oral and Intangible Heritage of Humanity) pada tanggal 2 Oktober 2009. Peristiwa ini kemudian menjadi dasar diperingatinya Hari Batik Nasional setiap tanggal 2 Oktober. Pengakuan UNESCO ini menjadi bukti bahwa batik Indonesia memiliki nilai estetika dan filosofi yang tinggi serta mencerminkan identitas bangsa.</p>
+
+                    <h2>Sejarah Batik di Indonesia</h2>
+                    <p>Batik telah menjadi bagian dari kehidupan masyarakat Indonesia sejak berabad-abad lalu. Sejarah batik di Indonesia tidak dapat dipisahkan dari perkembangan kerajaan Majapahit dan penyebaran Islam di Pulau Jawa. Pada masa itu, batik hanya dipakai oleh kalangan keraton dan bangsawan sebagai simbol status sosial.</p>
+
+                    <p>Kata "batik" berasal dari gabungan dua kata bahasa Jawa: "amba", yang bermakna "menulis", dan "titik" yang bermakna "titik". Secara harfiah, batik dapat diartikan sebagai menitikkan lilin pada kain untuk membentuk corak tertentu yang memiliki makna.</p>
+
+                    <h2>Jenis-jenis Batik di Indonesia</h2>
+                    <p>Indonesia memiliki kekayaan motif batik yang luar biasa dengan keunikan dan filosofi yang berbeda-beda di setiap daerah. Beberapa jenis batik yang terkenal di Indonesia antara lain:</p>
+
+                    <h3>1. Batik Keraton (Batik Solo dan Yogyakarta)</h3>
+                    <p>Batik keraton memiliki pola-pola tradisional yang mengandung makna filosofis mendalam. Warna yang digunakan cenderung gelap seperti coklat (sogan), biru tua (indigo), dan hitam. Motif batik keraton antara lain Parang, Kawung, Sidomukti, dan Truntum.</p>
+
+                    <h3>2. Batik Pesisir</h3>
+                    <p>Berbeda dengan batik keraton, batik pesisir memiliki warna yang lebih cerah dan beragam. Pengaruh budaya Tionghoa, Arab, dan Eropa terlihat jelas pada motif-motifnya. Daerah penghasil batik pesisir antara lain Pekalongan, Cirebon, Lasem, dan Madura.</p>
+
+                    <h3>3. Batik Kontemporer</h3>
+                    <p>Batik kontemporer merupakan pengembangan dari batik tradisional yang disesuaikan dengan selera dan kebutuhan masa kini. Motifnya lebih bebas dan tidak terikat aturan-aturan tradisional.</p>
+
+                    <blockquote>
+                        "Batik bukan sekadar kain, tetapi perwujudan dari filosofi dan nilai-nilai luhur masyarakat Indonesia yang diwariskan dari generasi ke generasi." - Prof. Dr. Wulan Karim, Pakar Budaya Indonesia
+                    </blockquote>
+
+                    <h2>Proses Pembuatan Batik Tradisional</h2>
+                    <p>Pembuatan batik secara tradisional memerlukan ketelitian, kesabaran, dan waktu yang tidak sebentar. Berikut adalah tahapan-tahapan pembuatan batik tulis tradisional:</p>
+
+                    <ol>
+                        <li><strong>Ngloyor</strong> - Mencuci kain mori untuk menghilangkan kanji</li>
+                        <li><strong>Nyorek</strong> - Menggambar pola pada kain dengan pensil</li>
+                        <li><strong>Mbathik</strong> - Menorehkan malam/lilin panas pada kain mengikuti pola</li>
+                        <li><strong>Nembok</strong> - Menutup bagian yang ingin dipertahankan warnanya dengan lapisan malam/lilin yang lebih tebal</li>
+                        <li><strong>Medel</strong> - Pencelupan kain ke dalam pewarna pertama, biasanya warna biru</li>
+                        <li><strong>Ngerok/Nglorod</strong> - Menghilangkan malam/lilin dari bagian tertentu atau keseluruhan kain</li>
+                        <li><strong>Mbironi</strong> - Menutup bagian yang sudah berwarna dan ingin dipertahankan</li>
+                        <li><strong>Nyoga</strong> - Pencelupan kain ke dalam pewarna selanjutnya, biasanya warna coklat</li>
+                        <li><strong>Nglorod Akhir</strong> - Menghilangkan seluruh malam/lilin yang tersisa dengan air panas</li>
+                    </ol>
+
+                    <p>Proses pembuatan batik tulis dapat memakan waktu hingga 2-3 bulan untuk satu lembar kain dengan kualitas terbaik. Itulah mengapa batik tulis tradisional memiliki nilai yang sangat tinggi, baik dari segi ekonomi maupun budaya.</p>
+
+                    <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=800&h=400&fit=crop" alt="Proses Pewarnaan Batik">
+
+                    <h2>Batik di Era Modern: Tantangan dan Peluang</h2>
+                    <p>Di era globalisasi ini, batik Indonesia menghadapi berbagai tantangan, mulai dari persaingan dengan tekstil printing yang lebih murah hingga kurangnya minat generasi muda untuk mempelajari dan melestarikan seni membatik. Namun, di balik tantangan tersebut, terdapat peluang yang menjanjikan untuk pengembangan batik di masa depan.</p>
+
+                    <h3>Tantangan dalam Pelestarian Batik</h3>
+                    <ul>
+                        <li>Persaingan dengan tekstil printing yang lebih murah dan cepat produksinya</li>
+                        <li>Berkurangnya jumlah pengrajin batik tulis tradisional</li>
+                        <li>Kurangnya pengetahuan dan apresiasi generasi muda terhadap filosofi batik</li>
+                        <li>Isu keberlanjutan dalam penggunaan pewarna alami versus pewarna kimia</li>
+                        <li>Plagiarisme motif batik Indonesia oleh negara lain</li>
+                    </ul>
+
+                    <h3>Peluang Pengembangan Batik</h3>
+                    <ul>
+                        <li>Meningkatnya kesadaran untuk menggunakan produk lokal</li>
+                        <li>Batik sebagai fashion yang tidak lekang oleh waktu</li>
+                        <li>Inovasi dalam desain batik kontemporer yang menarik minat kaum muda</li>
+                        <li>Ekspansi pasar batik ke kancah internasional</li>
+                        <li>Penggunaan teknologi digital dalam proses desain batik</li>
+                    </ul>
+
+                    <blockquote>
+                        "Modernisasi dan inovasi dalam dunia batik adalah keniscayaan, namun kita harus tetap menjaga esensi dan nilai-nilai tradisional yang menjadi jati diri batik Indonesia." - Iwan Tirta, Maestro Batik Indonesia
+                    </blockquote>
+
+                    <h2>Melestarikan Batik untuk Generasi Mendatang</h2>
+                    <p>Upaya pelestarian batik Indonesia tidak hanya menjadi tanggung jawab pemerintah, tetapi juga seluruh lapisan masyarakat. Beberapa langkah yang dapat dilakukan untuk melestarikan keindahan batik Indonesia antara lain:</p>
+
+                    <h3>1. Edukasi dan Sosialisasi</h3>
+                    <p>Mengenalkan batik dan filosofinya kepada generasi muda melalui kurikulum pendidikan dan workshop pembatikan. Mendorong sekolah-sekolah untuk mengunjungi museum batik atau pusat-pusat kerajinan batik sebagai bagian dari kegiatan pembelajaran.</p>
+
+                    <h3>2. Inovasi tanpa Meninggalkan Tradisi</h3>
+                    <p>Mengembangkan desain batik yang sesuai dengan selera zaman tanpa menghilangkan makna dan nilai filosofis di baliknya. Mengkombinasikan teknik tradisional dengan teknologi modern untuk menciptakan karya batik yang inovatif.</p>
+
+                    <h3>3. Dukungan terhadap Pengrajin Batik</h3>
+                    <p>Memberikan pelatihan dan bantuan modal kepada pengrajin batik untuk meningkatkan kualitas produk dan kapasitas produksi. Memfasilitasi pengrajin batik untuk mengakses pasar yang lebih luas, baik nasional maupun internasional.</p>
+
+                    <h3>4. Promosi Batik Indonesia ke Dunia Internasional</h3>
+                    <p>Mengikuti pameran-pameran fashion internasional untuk memperkenalkan keindahan batik Indonesia. Melakukan kolaborasi dengan desainer internasional untuk mengangkat citra batik Indonesia.</p>
+
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=400&fit=crop" alt="Fashion Batik Modern">
+
+                    <h3>5. Perlindungan Hak Kekayaan Intelektual</h3>
+                    <p>Mendaftarkan motif-motif batik tradisional sebagai kekayaan intelektual bangsa Indonesia. Menindak tegas segala bentuk plagiarisme motif batik Indonesia oleh pihak asing.</p>
+
+                    <h2>Kesimpulan</h2>
+                    <p>Batik Indonesia bukan sekadar kain bergambar, melainkan warisan budaya yang sarat makna dan filosofi. Keindahan dan keunikan batik Indonesia telah diakui dunia dan menjadi salah satu identitas bangsa yang membanggakan. Melestarikan batik berarti menjaga warisan budaya adiluhung dan memastikan generasi mendatang dapat terus menikmati dan mengapresiasinya.</p>
+
+                    <p>Di tengah arus globalisasi yang kian deras, batik bisa menjadi benteng pertahanan budaya sekaligus jembatan yang menghubungkan Indonesia dengan dunia internasional. Dengan inovasi yang berkelanjutan tanpa meninggalkan nilai-nilai tradisional, batik Indonesia akan tetap eksis dan semakin dikenal di kancah global.</p>
+
+                    <p>Mari bersama-sama melestarikan keindahan batik Indonesia sebagai warisan budaya yang mendunia!</p>
+
+                    <div class="article-tags">
+                        <a href="#" class="article-tag">Batik</a>
+                        <a href="#" class="article-tag">Warisan Budaya</a>
+                        <a href="#" class="article-tag">Indonesia</a>
+                        <a href="#" class="article-tag">Tradisional</a>
+                        <a href="#" class="article-tag">Fashion</a>
+                    </div>
+
+                    <div class="share-buttons">
+                        <span class="share-title">Bagikan:</span>
+                        <a href="#" class="share-btn">📱</a>
+                        <a href="#" class="share-btn">📘</a>
+                        <a href="#" class="share-btn">📸</a>
+                        <a href="#" class="share-btn">💼</a>
+                    </div>
+
+                    <div class="author-bio">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop&crop=face" alt="Dewi Pratiwi" class="author-img">
+                        <div class="author-info">
+                            <h4>Dewi Pratiwi</h4>
+                            <p>Dewi Pratiwi adalah seorang penulis dan peneliti budaya dengan fokus pada tekstil tradisional Indonesia. Ia telah menulis beberapa buku tentang batik dan kain tradisional Nusantara. Saat ini ia aktif mengajar di Fakultas Seni dan Desain Universitas Indonesia.</p>
+                            <div class="author-social">
+                                <a href="#">📱</a>
+                                <a href="#">📘</a>
+                                <a href="#">📸</a>
+                                <a href="#">💼</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <h3 class="comments-title">Komentar (3)</h3>
+
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-author">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="Ahmad Sudrajat" class="comment-avatar">
+                                <div>
+                                    <div class="comment-name">Ahmad Sudrajat</div>
+                                    <div class="comment-date">17 April 2025, 09:15</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <p>Artikel yang sangat informatif! Saya baru tahu kalau proses pembuatan batik tulis bisa memakan waktu hingga 2-3 bulan. Pantas saja harganya cukup mahal. Kita sebagai generasi muda harus lebih mengapresiasi karya seni tradisional ini.</p>
+                        </div>
+                        <div class="comment-actions">
+                            <a href="#" class="comment-action">Balas</a>
+                            <a href="#" class="comment-action">Suka (5)</a>
+                        </div>
+                    </div>
+
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-author">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Siti Nurhaliza" class="comment-avatar">
+                                <div>
+                                    <div class="comment-name">Siti Nurhaliza</div>
+                                    <div class="comment-date">18 April 2025, 14:30</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <p>Di daerah saya di Pekalongan, batik menjadi tulang punggung ekonomi rakyat. Saya sangat setuju bahwa kita perlu memberikan dukungan lebih kepada para pengrajin batik tradisional agar keahlian mereka tidak punah. Salam budaya!</p>
+                        </div>
+                        <div class="comment-actions">
+                            <a href="#" class="comment-action">Balas</a>
+                            <a href="#" class="comment-action">Suka (3)</a>
+                        </div>
+                    </div>
+
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Raka Pratama" class="comment-avatar">
+                                <div>
+                                    <div class="comment-name">Raka Pratama</div>
+                                    <div class="comment-date">20 April 2025, 10:45</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            <p>Saya adalah seorang desainer fashion yang sering menggunakan batik dalam koleksi saya. Menurut pengalaman saya, orang-orang luar negeri sangat mengapresiasi keindahan dan keunikan batik Indonesia. Mereka bahkan rela membayar mahal untuk mendapatkan batik tulis asli. Ada baiknya kita juga lebih mencintai produk budaya sendiri.</p>
+                        </div>
+                        <div class="comment-actions">
+                            <a href="#" class="comment-action">Balas</a>
+                            <a href="#" class="comment-action">Suka (7)</a>
+                        </div>
+                    </div>
+
+                    <div class="comment-form">
+                        <h3>Tinggalkan Komentar</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nama</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment" class="form-label">Komentar</label>
+                                <textarea id="comment" class="form-control" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Kirim Komentar</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Related Articles -->
+                <div class="related-articles">
+                    <h3 class="related-title">Artikel Terkait</h3>
+                    <div class="articles-grid">
+                        <div class="article-card">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=200&fit=crop" alt="Keunikan Tenun Ikat" class="article-card-img">
+                            <div class="article-card-content">
+                                <span class="article-card-category">Budaya</span>
+                                <h4 class="article-card-title"><a href="#">Keunikan Tenun Ikat dari Berbagai Daerah di Indonesia</a></h4>
+                                <p class="article-card-excerpt">Mengenal ragam tenun ikat yang menjadi warisan budaya tak benda Indonesia dan keunikannya di setiap daerah...</p>
+                                <div class="article-card-meta">
+                                    <span>10 April 2025</span>
+                                    <span>3 menit membaca</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="article-card">
+                            <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=400&h=200&fit=crop" alt="Pesona Songket" class="article-card-img">
+                            <div class="article-card-content">
+                                <span class="article-card-category">Fashion</span>
+                                <h4 class="article-card-title"><a href="#">Pesona Songket dalam Fashion Modern Indonesia</a></h4>
+                                <p class="article-card-excerpt">Bagaimana songket, kain mewah berbahan emas dan perak ini, beradaptasi dengan tren fashion kontemporer...</p>
+                                <div class="article-card-meta">
+                                    <span>5 April 2025</span>
+                                    <span>4 menit membaca</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="article-card">
+                            <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=400&h=200&fit=crop" alt="Wayang Kulit" class="article-card-img">
+                            <div class="article-card-content">
+                                <span class="article-card-category">Seni</span>
+                                <h4 class="article-card-title"><a href="#">Wayang Kulit: Seni Pertunjukan yang Mendunia</a></h4>
+                                <p class="article-card-excerpt">Menelusuri sejarah dan perkembangan wayang kulit sebagai seni pertunjukan yang telah diakui UNESCO...</p>
+                                <div class="article-card-meta">
+                                    <span>1 April 2025</span>
+                                    <span>5 menit membaca</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Pencarian</h3>
+                <form class="search-form">
+                    <input type="text" placeholder="Cari artikel..." class="search-input">
+                    <button type="submit" class="search-btn">🔍</button>
+                </form>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Artikel Populer</h3>
+                <ul class="popular-posts">
+                    <li class="popular-post">
+                        <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=160&h=120&fit=crop" alt="Gamelan" class="post-thumb">
+                        <div class="post-info">
+                            <h5><a href="#">Gamelan: Orkestra Tradisional dengan Harmoni Unik</a></h5>
+                            <span class="post-date">25 Maret 2025</span>
+                        </div>
+                    </li>
+                    <li class="popular-post">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=160&h=120&fit=crop" alt="Kuliner Tradisional" class="post-thumb">
+                        <div class="post-info">
+                            <h5><a href="#">10 Kuliner Tradisional yang Wajib Dicoba di Indonesia</a></h5>
+                            <span class="post-date">20 Maret 2025</span>
+                        </div>
+                    </li>
+                    <li class="popular-post">
+                        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=160&h=120&fit=crop" alt="Tari Tradisional" class="post-thumb">
+                        <div class="post-info">
+                            <h5><a href="#">Mengenal Ragam Tari Tradisional dari Sabang Sampai Merauke</a></h5>
+                            <span class="post-date">15 Maret 2025</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Kategori</h3>
+                <ul class="categories">
+                    <li class="category-item">
+                        <a href="#">
+                            <span>Budaya</span>
+                            <span class="category-count">15</span>
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a href="#">
+                            <span>Fashion</span>
+                            <span class="category-count">12</span>
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a href="#">
+                            <span>Kuliner</span>
+                            <span class="category-count">9</span>
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a href="#">
+                            <span>Seni</span>
+                            <span class="category-count">8</span>
+                        </a>
+                    </li>
+                    <li class="category-item">
+                        <a href="#">
+                            <span>Pariwisata</span>
+                            <span class="category-count">7</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget product-widget">
+                <h3 class="widget-title">Produk Pilihan</h3>
+                <div class="featured-product">
+                    <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98q-lq48t9608x7i33" alt="Batik Premium">
+                    <h4 class="product-title"><a href="#">Batik Tulis Motif Parang Rusak Premium</a></h4>
+                    <div class="product-price">Rp 1.250.000</div>
+                    <a href="#" class="view-product">Lihat Produk</a>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Tag Populer</h3>
+                <div class="tag-cloud">
+                    <a href="#">Batik</a>
+                    <a href="#">Tradisional</a>
+                    <a href="#">Indonesia</a>
+                    <a href="#">Fashion</a>
+                    <a href="#">Budaya</a>
+                    <a href="#">Warisan</a>
+                    <a href="#">Kerajinan</a>
+                    <a href="#">Souvenir</a>
+                    <a href="#">Handmade</a>
+                    <a href="#">Eksklusif</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>SouvenirStudio</h4>
+                <ul>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                    <li><a href="karir.html">Karir</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="syarat.html">Syarat & Ketentuan</a></li>
+                    <li><a href="kebijakan.html">Kebijakan Privasi</a></li>
+                    <li><a href="pengiriman.html">Informasi Pengiriman</a></li>
+                    <li><a href="pembayaran.html">Metode Pembayaran</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kategori Artikel</h4>
+                <ul>
+                    <li><a href="artikel-kategori.html?kat=tradisional">Kerajinan Tradisional</a></li>
+                    <li><a href="artikel-kategori.html?kat=modern">Souvenir Modern</a></li>
+                    <li><a href="artikel-kategori.html?kat=budaya">Budaya Indonesia</a></li>
+                    <li><a href="artikel-kategori.html?kat=tips">Tips & Panduan</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kontak Kami</h4>
+                <ul>
+                    <li><a href="mailto:info@souvenir-studio.com">info@souvenir-studio.com</a></li>
+                    <li><a href="tel:+6281234567890">+62 812 3456 7890</a></li>
+                    <li><a href="#">Jl. Kerajinan No. 123, Jakarta</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 SouvenirStudio. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+</body>
+</html>

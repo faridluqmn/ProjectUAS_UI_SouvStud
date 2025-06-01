@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batik Tulis Premium Motif Parang - SouvenirStudio</title>
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color: #002352;
+            --secondary-color: #51557E;
+            --dark-color: #1B2430;
+            --light-color: #F8F9FA;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --text-color: #212529;
+            --max-width: 1200px;
+
+            /* Glassmorphism variables */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+
+            /* Modern styling variables */
+            --border-radius-md: 16px;
+            --border-radius-sm: 8px;
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+            --transition-duration: 0.3s;
+            --transition-timing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f2f5, #e1e5ea);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color var(--transition-duration) var(--transition-timing);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-buttons a {
+            margin-left: 1rem;
+            text-decoration: none;
+            color: var(--dark-color);
+        }
+
+        .cart-icon,
+        .user-icon,
+        .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: var(--max-width);
+            margin: 1rem auto;
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 0.5rem;
+            color: #6c757d;
+        }
+
+        /* Product Detail */
+        .product-detail {
+            max-width: var(--max-width);
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .product-gallery {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .thumbnails {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: opacity var(--transition-duration) var(--transition-timing);
+        }
+
+        .thumbnail:hover {
+            opacity: 0.8;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .product-category {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .product-code {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+        }
+
+        .review-count {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+
+        .product-description {
+            margin-bottom: 1.5rem;
+        }
+
+        .product-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color var(--transition-duration) var(--transition-timing);
+        }
+
+        .color-option.active {
+            border-color: var(--primary-color);
+        }
+
+        .size-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .size-option {
+            padding: 0.3rem 0.8rem;
+            border: 1px solid #dee2e6;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-duration) var(--transition-timing);
+        }
+
+        .size-option.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: var(--border-radius-sm);
+            transition: background-color var(--transition-duration) var(--transition-timing);
+        }
+
+        .quantity-btn:hover {
+            background-color: #e9ecef;
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 36px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            border-left: none;
+            border-right: none;
+            font-size: 1rem;
+        }
+
+        .cart-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-to-cart {
+            flex: 2;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color var(--transition-duration) var(--transition-timing);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(to right, var(--dark-color), var(--primary-color));
+        }
+
+        .wishlist-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background-color: white;
+            color: var(--dark-color);
+            border: 1px solid #dee2e6;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-duration) var(--transition-timing);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .wishlist-btn:hover {
+            background-color: #f8f9fa;
+        }
+
+        .product-meta {
+            border-top: 1px solid #dee2e6;
+            padding-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .meta-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-label {
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+
+        .meta-value a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .meta-value a:hover {
+            text-decoration: underline;
+        }
+
+        /* Product Tabs */
+        .product-tabs {
+            max-width: var(--max-width);
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-button {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all var(--transition-duration) var(--transition-timing);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Product specifications */
+        .specifications {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specifications tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .specifications th,
+        .specifications td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .specifications th {
+            width: 30%;
+            font-weight: 500;
+        }
+
+        /* Reviews */
+        .review {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            background-color: white;
+            padding: 1rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviewer-name {
+            font-weight: 500;
+        }
+
+        .review-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .review-rating {
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .review-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .leave-review {
+            margin-top: 2rem;
+        }
+
+        .review-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .review-form input,
+        .review-form textarea,
+        .review-form select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Inter', sans-serif;
+            transition: border-color var(--transition-duration) var(--transition-timing), box-shadow var(--transition-duration) var(--transition-timing);
+        }
+
+        .review-form input:focus,
+        .review-form textarea:focus,
+        .review-form select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(2, 0, 114, 0.5);
+        }
+
+        .review-form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-review {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color var(--transition-duration) var(--transition-timing);
+        }
+
+        .submit-review:hover {
+            background: linear-gradient(to right, var(--dark-color), var(--primary-color));
+        }
+
+        /* Related Products */
+        .related-products {
+            max-width: var(--max-width);
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-duration) var(--transition-timing);
+            border: 1px solid var(--glass-border);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 1rem;
+        }
+
+        .product-card .product-category {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 0.3rem;
+            display: block;
+            background: none;
+            padding: 0;
+        }
+
+        .product-card .product-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-card .product-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .product-card .add-to-cart {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            text-align: center;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color var(--transition-duration) var(--transition-timing);
+        }
+
+        .product-card .add-to-cart:hover {
+            background: linear-gradient(to right, var(--dark-color), var(--primary-color));
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background-color: var(--primary-color);
+            padding: 3rem 1rem;
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+            outline: none;
+        }
+
+        .newsletter-button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--dark-color);
+            color: white;
+            border: none;
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color var(--transition-duration) var(--transition-timing);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 1rem 1rem;
+        }
+
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color var(--transition-duration) var(--transition-timing);
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: var(--max-width);
+            margin: 2rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid #495057;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .product-gallery,
+            .product-info {
+                flex: 100%;
+            }
+
+            .cart-buttons {
+                flex-direction: column;
+            }
+
+            .tabs-nav {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                flex: 1 0 50%;
+                text-align: center;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input {
+                border-radius: var(--border-radius-sm);
+                margin-bottom: 0.5rem;
+            }
+
+            .newsletter-button {
+                border-radius: var(--border-radius-sm);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">Souvenir<span>Studio</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="produk.html">Produk</a></li>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <a href="search.html" class="search-icon">🔍</a>
+                <a href="keranjang.html" class="cart-icon">🛒</a>
+                <a href="login.html" class="user-icon">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">Beranda</a>
+        <span class="breadcrumb-separator">></span>
+        <a href="produk.html">Produk</a>
+        <span class="breadcrumb-separator">></span>
+        <a href="kategori-batik.html">Batik</a>
+        <span class="breadcrumb-separator">></span>
+        Batik Tulis Premium Motif Parang
+    </div>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail">
+        <!-- Product Gallery -->
+        <div class="product-gallery">
+            <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98q-lq48t9608x7i33" alt="Batik Tulis Premium Motif Parang" class="main-image"
+                id="main-image">
+            <div class="thumbnails">
+                <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98q-lq48t9608x7i33" alt="Thumbnail 1" class="thumbnail" onclick="changeImage(this.src)">
+                <img src="http://3.bp.blogspot.com/_jA7dpYmFci0/TMRvyZv3U6I/AAAAAAAAB8k/d3cd0tQwnaE/s1600/Parang+Bunga+R5.JPG" alt="Thumbnail 2" class="thumbnail"
+                    onclick="changeImage(this.src)">
+                <img src="https://batikkomar.com/wp-content/uploads/2021/08/OR00338-2-1024x1024.jpg" alt="Thumbnail 3" class="thumbnail"
+                    onclick="changeImage(this.src)">
+                <img src="https://tse2.mm.bing.net/th?id=OIP.8eBfseeDlhkbIYII4-QQPgHaF3&pid=Api&P=0&h=180" alt="Thumbnail 4" class="thumbnail"
+                    onclick="changeImage(this.src)">
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+            <span class="product-category">Batik</span>
+            <h1 class="product-title">Batik Tulis Premium Motif Parang</h1>
+            <p class="product-code">SKU: BT-PARANG-001</p>
+
+            <div class="product-rating">
+                <div class="stars">★★★★★</div>
+                <span class="review-count">(12 Ulasan)</span>
+            </div>
+
+            <div class="product-price">
+                Rp 850.000 <span class="original-price">Rp 950.000</span>
+            </div>
+
+            <div class="product-description">
+                <p>Batik Tulis Premium motif Parang merupakan salah satu warisan budaya Indonesia yang dibuat dengan
+                    teknik tulis tangan tradisional. Setiap helai kain batik ini dikerjakan secara teliti oleh pengrajin
+                    batik berpengalaman dari Solo, menghasilkan karya seni yang bernilai tinggi dan eksklusif.</p>
+                <p>Motif Parang memiliki filosofi keberanian dan kekuatan, cocok dikenakan pada acara formal maupun
+                    semi-formal. Batik ini terbuat dari kain katun premium yang nyaman dipakai dalam berbagai kondisi
+                    cuaca.</p>
+            </div>
+
+            <div class="product-options">
+                <div class="option-title">Warna:</div>
+                <div class="color-options">
+                    <div class="color-option active" style="background-color: #8B4513;" onclick="selectColor(this)">
+                    </div>
+                    <div class="color-option" style="background-color: #000080;" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background-color: #800000;" onclick="selectColor(this)"></div>
+                </div>
+
+                <div class="option-title">Ukuran:</div>
+                <div class="size-options">
+                    <div class="size-option" onclick="selectSize(this)">S</div>
+                    <div class="size-option active" onclick="selectSize(this)">M</div>
+                    <div class="size-option" onclick="selectSize(this)">L</div>
+                    <div class="size-option" onclick="selectSize(this)">XL</div>
+                </div>
+            </div>
+
+            <div class="option-title">Jumlah:</div>
+            <div class="quantity-selector">
+                <div class="quantity-btn" onclick="decreaseQuantity()">-</div>
+                <input type="number" min="1" value="1" class="quantity-input" id="quantity">
+                <div class="quantity-btn" onclick="increaseQuantity()">+</div>
+            </div>
+
+            <div class="cart-buttons">
+                <button class="add-to-cart" id="add-to-cart-btn">Tambah ke Keranjang</button>
+                <button class="wishlist-btn">❤️</button>
+            </div>
+
+            <div class="product-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Kategori:</span>
+                    <span class="meta-value"><a href="kategori-batik.html">Batik</a>, <a
+                            href="kategori-pakaian.html">Pakaian Tradisional</a></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Tag:</span>
+                    <span class="meta-value"><a href="tag-batik-tulis.html">Batik Tulis</a>, <a
+                            href="tag-solo.html">Solo</a>, <a href="tag-premium.html">Premium</a></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Bagikan:</span>
+                    <span class="meta-value">
+                        <a href="#">Facebook</a> |
+                        <a href="#">Twitter</a> |
+                        <a href="#">Instagram</a> |
+                        <a href="#">WhatsApp</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Tabs -->
+    <section class="product-tabs">
+        <div class="tabs-nav">
+            <button class="tab-button active" onclick="openTab(event, 'description')">Deskripsi</button>
+            <button class="tab-button" onclick="openTab(event, 'specifications')">Spesifikasi</button>
+            <button class="tab-button" onclick="openTab(event, 'shipping')">Pengiriman</button>
+            <button class="tab-button" onclick="openTab(event, 'reviews')">Ulasan (12)</button>
+        </div>
+
+        <div id="description" class="tab-content active">
+            <h3>Deskripsi Produk</h3>
+            <p>Batik Tulis Premium motif Parang merupakan salah satu warisan budaya Indonesia yang dibuat dengan teknik
+                tulis tangan tradisional. Setiap helai kain batik ini dikerjakan secara teliti oleh pengrajin batik
+                berpengalaman dari Solo, menghasilkan karya seni yang bernilai tinggi dan eksklusif.</p>
+
+            <p>Motif Parang sendiri merupakan salah satu motif tertua dalam sejarah batik Jawa, yang pada awalnya hanya
+                boleh dikenakan oleh keluarga keraton. Motif ini melambangkan ombak laut yang tak pernah putus,
+                mencerminkan kesinambungan dan ketekunan dalam kehidupan.</p>
+
+            <p>Keistimewaan Batik Tulis Premium:</p>
+            <ul>
+                <li>Dibuat dengan teknik tulis tangan (canting) tradisional</li>
+                <li>Proses pewarnaan alami menggunakan bahan-bahan dari alam</li>
+                <li>Membutuhkan waktu 1-3 bulan untuk menyelesaikan satu helai kain</li>
+                <li>Setiap batik memiliki keunikan tersendiri dan tidak akan sama persis satu dengan lainnya</li>
+                <li>Dibuat oleh pengrajin batik berpengalaman dari Solo</li>
+                <li>Terbuat dari bahan katun premium yang nyaman dipakai</li>
+            </ul>
+
+            <p>Batik Tulis Premium motif Parang ini sangat cocok untuk:</p>
+            <ul>
+                <li>Acara formal seperti pernikahan, wisuda, atau acara kedinasan</li>
+                <li>Acara semi-formal seperti pesta, reuni, atau jamuan makan</li>
+                <li>Koleksi pribadi pecinta batik dan seni tradisional</li>
+                <li>Hadiah eksklusif untuk orang-orang istimewa</li>
+            </ul>
+
+            <p>Dengan memiliki Batik Tulis Premium motif Parang, Anda tidak hanya mendapatkan pakaian berkualitas tinggi
+                tetapi juga turut melestarikan warisan budaya Indonesia dan mendukung para pengrajin batik tradisional.
+            </p>
+        </div>
+
+        <div id="specifications" class="tab-content">
+            <h3>Spesifikasi Produk</h3>
+            <table class="specifications">
+                <tr>
+                    <th>Material</th>
+                    <td>Katun Premium</td>
+                </tr>
+                <tr>
+                    <th>Ukuran</th>
+                    <td>S, M, L, XL</td>
+                </tr>
+                <!-- Continuing from where the document was cut off -->
+                <tr>
+                    <th>Teknik Pembuatan</th>
+                    <td>Batik Tulis (Hand-drawn)</td>
+                </tr>
+                <tr>
+                    <th>Motif</th>
+                    <td>Parang (Tradisional)</td>
+                </tr>
+                <tr>
+                    <th>Warna</th>
+                    <td>Coklat (Sogan), Biru Navy, Merah Marun</td>
+                </tr>
+                <tr>
+                    <th>Asal</th>
+                    <td>Solo, Jawa Tengah</td>
+                </tr>
+                <tr>
+                    <th>Berat</th>
+                    <td>500 gram</td>
+                </tr>
+                <tr>
+                    <th>Perawatan</th>
+                    <td>Cuci tangan dengan air dingin, jangan direndam terlalu lama, setrika dengan suhu sedang</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="shipping" class="tab-content">
+            <h3>Informasi Pengiriman</h3>
+            <p>Kami menyediakan beberapa pilihan pengiriman untuk memenuhi kebutuhan Anda:</p>
+
+            <h4>Waktu Pengiriman</h4>
+            <ul>
+                <li>Jabodetabek: 1-2 hari kerja</li>
+                <li>Jawa: 2-3 hari kerja</li>
+                <li>Sumatera, Kalimantan, Sulawesi: 3-5 hari kerja</li>
+                <li>Indonesia Timur: 5-7 hari kerja</li>
+            </ul>
+
+            <h4>Kurir</h4>
+            <ul>
+                <li>JNE (Regular, YES)</li>
+                <li>J&T Express</li>
+                <li>SiCepat</li>
+                <li>AnterAja</li>
+                <li>Pos Indonesia</li>
+            </ul>
+
+            <h4>Kebijakan Pengiriman</h4>
+            <p>Pesanan akan diproses dan dikirim dalam waktu 1-2 hari kerja setelah pembayaran dikonfirmasi. Pesanan
+                yang masuk setelah pukul 15.00 WIB akan diproses pada hari kerja berikutnya.</p>
+
+            <p>Biaya pengiriman dihitung berdasarkan berat produk, jarak pengiriman, dan kurir yang dipilih. Anda dapat
+                melihat estimasi biaya pengiriman saat checkout sebelum melakukan pembayaran.</p>
+
+            <h4>Kebijakan Pengembalian</h4>
+            <p>Kami menerima pengembalian produk dalam waktu 7 hari setelah produk diterima dengan ketentuan:</p>
+            <ul>
+                <li>Produk belum digunakan, dicuci, atau diubah</li>
+                <li>Produk masih dalam kondisi asli dengan label dan kemasan lengkap</li>
+                <li>Terdapat bukti pembelian (nota/invoice)</li>
+            </ul>
+
+            <p>Biaya pengiriman untuk pengembalian produk ditanggung oleh pembeli, kecuali jika pengembalian disebabkan
+                oleh kesalahan kami atau produk cacat.</p>
+
+            <p>Untuk informasi lebih lanjut mengenai pengiriman dan pengembalian, silakan hubungi tim Customer Service
+                kami.</p>
+        </div>
+
+        <div id="reviews" class="tab-content">
+            <h3>Ulasan Pelanggan</h3>
+
+            <div class="review">
+                <div class="review-header">
+                    <div class="reviewer-name">Adi Prasetyo</div>
+                    <div class="review-date">12 April 2025</div>
+                </div>
+                <div class="review-rating">★★★★★</div>
+                <div class="review-title">Kualitas Premium Tidak Diragukan</div>
+                <p>Batik dengan kualitas premium yang benar-benar terlihat dan terasa mewah. Motif Parang-nya sangat
+                    detail dan indah. Sangat puas dengan pembelian ini dan layanan pengirimannya juga cepat. Akan
+                    belanja lagi di sini.</p>
+            </div>
+
+            <div class="review">
+                <div class="review-header">
+                    <div class="reviewer-name">Dewi Sartika</div>
+                    <div class="review-date">5 April 2025</div>
+                </div>
+                <div class="review-rating">★★★★★</div>
+                <div class="review-title">Batik Tulis Asli yang Menakjubkan</div>
+                <p>Saya seorang kolektor batik tulis dan bisa mengatakan bahwa batik ini memang batik tulis asli dengan
+                    kualitas terbaik. Proses pewarnaan alami terlihat jelas dan hasilnya sangat elegan. Saya mendapatkan
+                    banyak pujian setiap kali mengenakannya.</p>
+            </div>
+
+            <div class="review">
+                <div class="review-header">
+                    <div class="reviewer-name">Budi Santoso</div>
+                    <div class="review-date">28 Maret 2025</div>
+                </div>
+                <div class="review-rating">★★★★☆</div>
+                <div class="review-title">Bagus Tapi Ukuran Sedikit Kecil</div>
+                <p>Batiknya sangat bagus, tapi ukurannya sedikit lebih kecil dari yang saya harapkan. Mungkin sebaiknya
+                    memesan satu ukuran lebih besar. Meski begitu, kualitasnya memang luar biasa dan saya tetap sangat
+                    puas.</p>
+            </div>
+
+            <div class="leave-review">
+                <h4>Tulis Ulasan Anda</h4>
+                <form class="review-form">
+                    <div>
+                        <label for="name">Nama:</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div>
+                        <label for="rating">Rating:</label>
+                        <select id="rating" required>
+                            <option value="5">★★★★★ (5/5)</option>
+                            <option value="4">★★★★☆ (4/5)</option>
+                            <option value="3">★★★☆☆ (3/5)</option>
+                            <option value="2">★★☆☆☆ (2/5)</option>
+                            <option value="1">★☆☆☆☆ (1/5)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="review-title">Judul Ulasan:</label>
+                        <input type="text" id="review-title" required>
+                    </div>
+                    <div>
+                        <label for="review-content">Ulasan Anda:</label>
+                        <textarea id="review-content" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-review">Kirim Ulasan</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <h2 class="section-title">Produk Terkait</h2>
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/300?text=Batik+Tulis+Mega+Mendung" alt="Batik Tulis Mega Mendung"
+                    class="product-img">
+                <div class="product-content">
+                    <span class="product-category">Batik</span>
+                    <h3 class="product-title">Batik Tulis Mega Mendung</h3>
+                    <div class="product-price">Rp 780.000</div>
+                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/300?text=Batik+Cap+Kawung" alt="Batik Cap Kawung" class="product-img">
+                <div class="product-content">
+                    <span class="product-category">Batik</span>
+                    <h3 class="product-title">Batik Cap Kawung</h3>
+                    <div class="product-price">Rp 450.000</div>
+                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/300?text=Batik+Tulis+Sekar+Jagad" alt="Batik Tulis Sekar Jagad"
+                    class="product-img">
+                <div class="product-content">
+                    <span class="product-category">Batik</span>
+                    <h3 class="product-title">Batik Tulis Sekar Jagad</h3>
+                    <div class="product-price">Rp 820.000</div>
+                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/300?text=Batik+Kombinasi+Truntum" alt="Batik Kombinasi Truntum"
+                    class="product-img">
+                <div class="product-content">
+                    <span class="product-category">Batik</span>
+                    <h3 class="product-title">Batik Kombinasi Truntum</h3>
+                    <div class="product-price">Rp 620.000</div>
+                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h3>Dapatkan Informasi Terbaru</h3>
+            <p>Berlangganan newsletter kami untuk mendapatkan informasi terbaru tentang produk baru, diskon spesial, dan
+                artikel menarik seputar batik dan budaya Indonesia.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Alamat Email Anda" class="newsletter-input" required>
+                <button type="submit" class="newsletter-button">Berlangganan</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>SouvenirStudio</h4>
+                <p>SouvenirStudio adalah marketplace yang fokus pada penjualan produk-produk kerajinan dan seni
+                    tradisional Indonesia berkualitas tinggi, dengan misi melestarikan warisan budaya Indonesia.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kategori</h4>
+                <ul>
+                    <li><a href="kategori-batik.html">Batik</a></li>
+                    <li><a href="kategori-tenun.html">Tenun</a></li>
+                    <li><a href="kategori-kayu.html">Kerajinan Kayu</a></li>
+                    <li><a href="kategori-perak.html">Kerajinan Perak</a></li>
+                    <li><a href="kategori-anyaman.html">Anyaman</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Informasi</h4>
+                <ul>
+                    <li><a href="tentang.html">Tentang Kami</a></li>
+                    <li><a href="syarat.html">Syarat & Ketentuan</a></li>
+                    <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="cara-pesan.html">Cara Pemesanan</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Kontak Kami</h4>
+                <ul>
+                    <li>📍 Jl. Batik Raya No. 123, Solo</li>
+                    <li>📱 +62 812 3456 7890</li>
+                    <li>✉️ info@souvenir-studio.com</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 SouvenirStudio. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Change main image when thumbnail is clicked
+        function changeImage(src) {
+            document.getElementById('main-image').src = src;
+        }
+
+        // Color option selection
+        function selectColor(element) {
+            // Remove active class from all color options
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                option.classList.remove('active');
+            });
+
+            // Add active class to selected option
+            element.classList.add('active');
+        }
+
+        // Size option selection
+        function selectSize(element) {
+            // Remove active class from all size options
+            const sizeOptions = document.querySelectorAll('.size-option');
+            sizeOptions.forEach(option => {
+                option.classList.remove('active');
+            });
+
+            // Add active class to selected option
+            element.classList.add('active');
+        }
+
+        // Increase quantity
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        // Decrease quantity
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
+
+        // Open tab
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            const tabContent = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove('active');
+            }
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.getElementsByClassName('tab-button');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+
+            // Show the specific tab content and add active class to the button
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Add to cart button
+        document.getElementById('add-to-cart-btn').addEventListener('click', function () {
+            // Get selected options
+            const selectedColor = document.querySelector('.color-option.active').style.backgroundColor;
+            const selectedSize = document.querySelector('.size-option.active').textContent;
+            const quantity = document.getElementById('quantity').value;
+
+            // Show confirmation
+            alert(`Produk berhasil ditambahkan ke keranjang!\n\nBatik Tulis Premium Motif Parang\nWarna: ${selectedColor}\nUkuran: ${selectedSize}\nJumlah: ${quantity}`);
+
+            // In a real application, you would send this data to the server
+        });
+    </script>
+</body>
+
+</html>

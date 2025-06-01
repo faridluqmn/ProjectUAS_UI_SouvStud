@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SouvenirStudio - Admin Dashboard</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color: #020072;
+            --secondary-color: #000f66;
+            --dark-color: #000f3a;
+            --light-color: #F8F9FA;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+            --warning-color: #fd7e14;
+            --info-color: #17a2b8;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --max-width: 1400px;
+        }
+
+        body {
+            background-color: var(--gray-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav ul li {
+            margin: 0.2rem 0;
+        }
+
+        .sidebar-nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav ul li a:hover,
+        .sidebar-nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .sidebar-nav ul li a i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-footer .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.8rem;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-name {
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: all 0.3s;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--gray-color);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            flex: 0 0 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            margin-left: 0.5rem;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .topbar-actions .action-item {
+            margin-left: 1.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .topbar-actions .action-item i {
+            font-size: 1.2rem;
+        }
+
+        .topbar-actions .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card .stat-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+
+        .stat-card .stat-title {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-card .positive {
+            color: var(--success-color);
+        }
+
+        .stat-card .negative {
+            color: var(--danger-color);
+        }
+
+        /* Charts */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-card .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-card .chart-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .chart-card .chart-actions {
+            display: flex;
+        }
+
+        .chart-card .chart-actions button {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.8rem;
+            margin-left: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chart-card .chart-actions button:hover,
+        .chart-card .chart-actions button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .chart-content {
+            height: 300px;
+        }
+
+        /* Wrapper dan ikon */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Kotak dropdown */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            z-index: 10;
+        }
+
+        /* Tampilkan saat aktif */
+        .user-dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        /* Item di dalam menu */
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f0f0;
+        }
+
+        /* Garis pemisah */
+        .dropdown-divider {
+            height: 1px;
+            background: #ddd;
+            margin: 4px 0;
+        }
+
+        /* Tables */
+        .tables-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .table-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-card .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .table-card .table-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .table-card .view-all {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            font-weight: 500;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table .status {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .data-table .pending {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        .data-table .processing {
+            background-color: rgba(23, 162, 184, 0.2);
+            color: #0c5460;
+        }
+
+        .data-table .shipped {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .data-table .danger {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #721c24;
+        }
+
+        .data-table .warning {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        .data-table .success {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .quick-actions .qa-header {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .qa-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .qa-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: white;
+        }
+
+        .qa-button i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .qa-button.primary {
+            background-color: var(--primary-color);
+        }
+
+        .qa-button.success {
+            background-color: var(--success-color);
+        }
+
+        .qa-button.warning {
+            background-color: var(--warning-color);
+        }
+
+        .qa-button.info {
+            background-color: var(--info-color);
+        }
+
+        .qa-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+
+            .charts-container,
+            .tables-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: none;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0;
+                font-size: 1.5rem;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: block;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0.8rem;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">Souvenir<span>Studio</span></a>
+            </div>
+
+            <div class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html" class="active">📊 <span>Dashboard</span></a></li>
+                    <li><a href="kelola-produk.html">📦 <span>Produk</span></a></li>
+                    <li><a href="kelola-artikel.html">📝 <span>Artikel</span></a></li>
+                    <li><a href="pesanan.html">🛒 <span>Pesanan</span></a></li>
+                    <li><a href="pelanggan.html">👥 <span>Pelanggan</span></a></li>
+                    <li><a href="kategori.html">🏷️ <span>Kategori</span></a></li>
+                    <li><a href="laporan.html">📈 <span>Laporan</span></a></li>
+                    <li><a href="komentar.html">💬 <span>Komentar</span></a></li>
+                    <li><a href="pengaturan.html">⚙️ <span>Pengaturan</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div>
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <button class="toggle-sidebar">☰</button>
+
+                <div class="search-box">
+                    🔍 <input type="text" placeholder="Cari...">
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="action-item">
+                        🔔 <span class="badge">3</span>
+                    </div>
+                    <div class="action-item">
+                        ✉️ <span class="badge">5</span>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="action-item">👤</div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item" onclick="goToAdmin()">Administrator</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="logout()">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <h1 class="page-title">Dashboard</h1>
+
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-title">Total Penjualan</div>
+                        <div class="stat-value">Rp 24,5 jt</div>
+                        <div class="stat-change positive">↑ 12.5% dibanding bulan lalu</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-title">Pengunjung</div>
+                        <div class="stat-value">15.248</div>
+                        <div class="stat-change positive">↑ 8.3% dibanding bulan lalu</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">🛒</div>
+                        <div class="stat-title">Pesanan Baru</div>
+                        <div class="stat-value">124</div>
+                        <div class="stat-change positive">↑ 5.2% dibanding bulan lalu</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-title">Produk Terjual</div>
+                        <div class="stat-value">352</div>
+                        <div class="stat-change negative">↓ 2.1% dibanding bulan lalu</div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Penjualan & Pengunjung</h3>
+                            <div class="chart-actions">
+                                <button class="active">Minggu</button>
+                                <button>Bulan</button>
+                                <button>Tahun</button>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="salesVisitorChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Produk Populer</h3>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="popularProductsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3 class="qa-header">Aksi Cepat</h3>
+                    <div class="qa-buttons">
+                        <a href="kelola-produk.html" class="qa-button primary">
+                            <i>➕</i> Tambah Produk
+                        </a>
+                        <a href="kelola-artikel.html" class="qa-button success">
+                            <i>📝</i> Tambah Artikel
+                        </a>
+                        <a href="proses-pesanan.html" class="qa-button warning">
+                            <i>🛒</i> Proses Pesanan
+                        </a>
+                        <a href="laporan-penjualan.html" class="qa-button info">
+                            <i>📊</i> Laporan Penjualan
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tables -->
+                <div class="tables-container">
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3 class="table-title">Pesanan Terbaru</h3>
+                            <a href="pesanan.html" class="view-all">Lihat Semua</a>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pelanggan</th>
+                                    <th>Tanggal</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-5432</td>
+                                    <td>Andi Saputra</td>
+                                    <td>07/05/2025</td>
+                                    <td>Rp 850.000</td>
+                                    <td><span class="status pending">Menunggu Pembayaran</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5431</td>
+                                    <td>Budi Santoso</td>
+                                    <td>06/05/2025</td>
+                                    <td>Rp 1.250.000</td>
+                                    <td><span class="status processing">Diproses</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5430</td>
+                                    <td>Citra Dewi</td>
+                                    <td>06/05/2025</td>
+                                    <td>Rp 325.000</td>
+                                    <td><span class="status shipped">Dikirim</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5429</td>
+                                    <td>Doni Prasetyo</td>
+                                    <td>05/05/2025</td>
+                                    <td>Rp 450.000</td>
+                                    <td><span class="status shipped">Dikirim</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5428</td>
+                                    <td>Eka Wijaya</td>
+                                    <td>05/05/2025</td>
+                                    <td>Rp 275.000</td>
+                                    <td><span class="status processing">Diproses</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3 class="table-title">Stok Produk</h3>
+                            <a href="produk.html" class="view-all">Lihat Semua</a>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Produk</th>
+                                    <th>Kategori</th>
+                                    <th>Stok</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Batik Tulis Premium Motif Parang</td>
+                                    <td>Batik</td>
+                                    <td>24</td>
+                                    <td><span class="status success">Tersedia</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Miniatur Candi Borobudur</td>
+                                    <td>Miniatur</td>
+                                    <td>15</td>
+                                    <td><span class="status success">Tersedia</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Tas Anyaman Rotan Bali</td>
+                                    <td>Anyaman</td>
+                                    <td>7</td>
+                                    <td><span class="status warning">Hampir Habis</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Wayang Golek Arjuna</td>
+                                    <td>Wayang</td>
+                                    <td>3</td>
+                                    <td><span class="status danger">Stok Kritis</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Kain Tenun Songket Palembang</td>
+                                    <td>Tenun</td>
+                                    <td>0</td>
+                                    <td><span class="status danger">Habis</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3 class="table-title">Pesanan Perlu Diproses</h3>
+                            <a href="pesanan.html?filter=process" class="view-all">Lihat Semua</a>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pelanggan</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-5431</td>
+                                    <td>Budi Santoso</td>
+                                    <td>06/05/2025</td>
+                                    <td><span class="status processing">Diproses</span></td>
+                                    <td><a href="detail-pesanan.html?id=5431">Detail</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5428</td>
+                                    <td>Eka Wijaya</td>
+                                    <td>05/05/2025</td>
+                                    <td><span class="status processing">Diproses</span></td>
+                                    <td><a href="detail-pesanan.html?id=5428">Detail</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5426</td>
+                                    <td>Faisal Rahman</td>
+                                    <td>04/05/2025</td>
+                                    <td><span class="status processing">Diproses</span></td>
+                                    <td><a href="detail-pesanan.html?id=5426">Detail</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5424</td>
+                                    <td>Gita Nirmala</td>
+                                    <td>04/05/2025</td>
+                                    <td><span class="status processing">Diproses</span></td>
+                                    <td><a href="detail-pesanan.html?id=5424">Detail</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-5419</td>
+                                    <td>Hadi Nugroho</td>
+                                    <td>03/05/2025</td>
+                                    <td><span class="status processing">Diproses</span></td>
+                                    <td><a href="detail-pesanan.html?id=5419">Detail</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-header">
+                            <h3 class="table-title">Aktivitas Terbaru</h3>
+                            <a href="aktivitas.html" class="view-all">Lihat Semua</a>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>User</th>
+                                    <th>Aktivitas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>07/05/2025</td>
+                                    <td>Admin</td>
+                                    <td>Menambahkan produk baru: Kerajinan Bambu Yogyakarta</td>
+                                </tr>
+                                <tr>
+                                    <td>07/05/2025</td>
+                                    <td>Admin</td>
+                                    <td>Memproses pesanan #ORD-5431</td>
+                                </tr>
+                                <tr>
+                                    <td>06/05/2025</td>
+                                    <td>Admin</td>
+                                    <td>Memperbarui stok produk: Miniatur Candi Borobudur</td>
+                                </tr>
+                                <tr>
+                                    <td>06/05/2025</td>
+                                    <td>Admin</td>
+                                    <td>Mengirim pesanan #ORD-5430</td>
+                                </tr>
+                                <tr>
+                                    <td>05/05/2025</td>
+                                    <td>Admin</td>
+                                    <td>Menambahkan artikel baru: "10 Suvenir Khas Indonesia yang Mendunia"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Sidebar - Improved with slide effect
+        document.querySelector('.toggle-sidebar').addEventListener('click', function () {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+
+            // Save state to localStorage so it persists between page refreshes
+            const sidebarCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', sidebarCollapsed);
+        });
+
+        // Check localStorage for sidebar state on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+
+            if (sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            }
+        });
+
+        // Sales & Visitors Chart
+        var salesVisitorCtx = document.getElementById('salesVisitorChart').getContext('2d');
+        var salesVisitorChart = new Chart(salesVisitorCtx, {
+            type: 'line',
+            data: {
+                labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                datasets: [
+                    {
+                        label: 'Penjualan (Rp juta)',
+                        data: [3.2, 2.8, 3.5, 4.2, 5.1, 3.8, 2.9],
+                        backgroundColor: 'rgba(2, 0, 114, 0.1)',
+                        borderColor: 'rgba(2, 0, 114, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Pengunjung (x100)',
+                        data: [25, 20, 28, 32, 36, 45, 40],
+                        backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                        borderColor: 'rgba(255, 193, 7, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        // Popular Products Chart
+        var popularProductsCtx = document.getElementById('popularProductsChart').getContext('2d');
+        var popularProductsChart = new Chart(popularProductsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Batik', 'Miniatur', 'Anyaman', 'Wayang', 'Tenun'],
+                datasets: [{
+                    data: [35, 25, 20, 15, 5],
+                    backgroundColor: [
+                        'rgba(2, 0, 114, 0.8)',
+                        'rgba(0, 15, 102, 0.8)',
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(40, 167, 69, 0.8)',
+                        'rgba(220, 53, 69, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(2, 0, 114, 1)',
+                        'rgba(0, 15, 102, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(40, 167, 69, 1)',
+                        'rgba(220, 53, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            }
+        });
+
+        // Toggle dropdown
+        document.getElementById('userDropdown').addEventListener('click', function () {
+            this.classList.toggle('active');
+        });
+
+        // Fungsi aksi
+        function goToAdmin() {
+            window.location.href = '../admin/dashboard.html'; // sesuaikan path
+        }
+
+        function logout() {
+            localStorage.clear(); // contoh logout sederhana
+            window.location.href = '../userpage/login.html'; // arahkan ke halaman login
+        }
+
+        // Fitur tambahan: filter periode pada grafik
+        const chartButtons = document.querySelectorAll('.chart-actions button');
+        chartButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Hapus kelas active dari semua tombol
+                chartButtons.forEach(btn => btn.classList.remove('active'));
+                // Tambahkan kelas active ke tombol yang diklik
+                this.classList.add('active');
+
+                // Data dummy untuk simulasi perubahan periode
+                let salesData, visitorData, labels;
+
+                if (this.textContent === 'Minggu') {
+                    labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+                    salesData = [3.2, 2.8, 3.5, 4.2, 5.1, 3.8, 2.9];
+                    visitorData = [25, 20, 28, 32, 36, 45, 40];
+                } else if (this.textContent === 'Bulan') {
+                    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+                    salesData = [18.5, 19.2, 21.5, 20.8, 24.5, 22.3, 23.8, 25.1, 24.2, 26.5, 27.8, 30.2];
+                    visitorData = [120, 125, 130, 128, 152, 148, 155, 160, 158, 165, 170, 182];
+                } else if (this.textContent === 'Tahun') {
+                    labels = ['2020', '2021', '2022', '2023', '2024', '2025'];
+                    salesData = [120, 150, 185, 210, 245, 125]; // 2025 hanya sampai Mei
+                    visitorData = [800, 950, 1100, 1250, 1450, 750]; // 2025 hanya sampai Mei
+                }
+
+                // Update data chart
+                salesVisitorChart.data.labels = labels;
+                salesVisitorChart.data.datasets[0].data = salesData;
+                salesVisitorChart.data.datasets[1].data = visitorData;
+                salesVisitorChart.update();
+            });
+        });
+
+        // Fitur tambahan: animasi hover pada stat cards
+        const statCards = document.querySelectorAll('.stat-card');
+        statCards.forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+                this.style.transition = 'all 0.3s ease';
+            });
+
+            card.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            });
+        });
+    </script>
+</body>
+
+</html>
