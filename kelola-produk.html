@@ -754,6 +754,38 @@
             margin-top: 2rem;
         }
 
+        .upload-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border: 2px dashed #aaa;
+            border-radius: 10px;
+            background-color: #fafafa;
+            cursor: pointer;
+            text-align: center;
+            color: #666;
+            font-size: 0.95rem;
+            transition: background-color 0.2s ease;
+            min-height: 120px;
+        }
+
+        .upload-area:hover {
+            background-color: #f0f0f0;
+            border-color: #777;
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.5rem;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {
@@ -853,8 +885,8 @@
                     <li><a href="dashboard.html">📊 <span>Dashboard</span></a></li>
                     <li><a href="kelola-produk.html" class="active">📦 <span>Produk</span></a></li>
                     <li><a href="kelola-artikel.html">📝 <span>Artikel</span></a></li>
-                    <li><a href="pesanan.html">🛒 <span>Pesanan</span></a></li>
-                    <li><a href="pelanggan.html">👥 <span>Pelanggan</span></a></li>
+                    <li><a href="kelola-pesanan.html">🛒 <span>Pesanan</span></a></li>
+                    <li><a href="kelola-pelanggan.html">👥 <span>Pelanggan</span></a></li>
                     <li><a href="kategori.html">🏷️ <span>Kategori</span></a></li>
                     <li><a href="laporan.html">📈 <span>Laporan</span></a></li>
                     <li><a href="komentar.html">💬 <span>Komentar</span></a></li>
@@ -1066,7 +1098,7 @@
                                 <td><input type="checkbox" class="product-checkbox" value="2"></td>
                                 <td>
                                     <div class="product-info">
-                                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=60&h=60&fit=crop"
+                                        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/98/MTA-112944158/no-brand_miniatur-borobudur-fiber_full01.jpg"
                                             alt="Miniatur Candi" class="product-image">
                                         <div class="product-details">
                                             <h4>Miniatur Candi Borobudur</h4>
@@ -1092,7 +1124,7 @@
                                 <td><input type="checkbox" class="product-checkbox" value="3"></td>
                                 <td>
                                     <div class="product-info">
-                                        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=60&h=60&fit=crop"
+                                        <img src="https://martapura.org/cdn/shop/products/WhatsAppImage2022-06-28at06.34.30.jpg?v=1656955086"
                                             alt="Tas Anyaman" class="product-image">
                                         <div class="product-details">
                                             <h4>Tas Anyaman Rotan Bali</h4>
@@ -1118,7 +1150,7 @@
                                 <td><input type="checkbox" class="product-checkbox" value="4"></td>
                                 <td>
                                     <div class="product-info">
-                                        <img src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=60&h=60&fit=crop"
+                                        <img src="https://media.karousell.com/media/photos/products/2024/6/6/wayang_golek_lama_kulon_progo__1717659135_e0474b44_progressive.jpg"
                                             alt="Wayang Golek" class="product-image">
                                         <div class="product-details">
                                             <h4>Wayang Golek Arjuna</h4>
@@ -1144,7 +1176,7 @@
                                 <td><input type="checkbox" class="product-checkbox" value="5"></td>
                                 <td>
                                     <div class="product-info">
-                                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=60&h=60&fit=crop"
+                                        <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2024/6/23/0b4e27cd-0b7a-4312-890b-fcd321a2da66.jpg"
                                             alt="Kain Tenun" class="product-image">
                                         <div class="product-details">
                                             <h4>Kain Tenun Songket Palembang</h4>
@@ -1163,32 +1195,6 @@
                                         <button class="action-btn view" onclick="viewProduct(5)">👁️</button>
                                         <button class="action-btn edit" onclick="editProduct(5)">✏️</button>
                                         <button class="action-btn delete" onclick="deleteProduct(5)">🗑️</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="product-checkbox" value="6"></td>
-                                <td>
-                                    <div class="product-info">
-                                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=60&h=60&fit=crop"
-                                            alt="Kerajinan Bambu" class="product-image">
-                                        <div class="product-details">
-                                            <h4>Kerajinan Bambu Yogyakarta</h4>
-                                            <p>SKU: KER-006</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Kerajinan</td>
-                                <td>Rp 125.000</td>
-                                <td>18</td>
-                                <td><span class="stock-status stock-available">Tersedia</span></td>
-                                <td><span class="status-badge status-draft">Draft</span></td>
-                                <td>03/04/2025</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="action-btn view" onclick="viewProduct(6)">👁️</button>
-                                        <button class="action-btn edit" onclick="editProduct(6)">✏️</button>
-                                        <button class="action-btn delete" onclick="deleteProduct(6)">🗑️</button>
                                     </div>
                                 </td>
                             </tr>
@@ -1242,6 +1248,15 @@
                         <option value="kerajinan">Kerajinan</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="productImage">Gambar Produk</label>
+                    <label for="productImage" class="upload-area">
+                        <span>Seret & Letakkan Gambar di sini atau Klik untuk Unggah</span>
+                        <input type="file" id="productImage" name="productImage" accept="image/*" required>
+                    </label>
+                    <small class="form-text">Format gambar: JPG, PNG. Maksimal ukuran 2MB.</small>
+                </div>
+
                 <div class="form-group">
                     <label for="productPrice">Harga</label>
                     <input type="number" id="productPrice" name="productPrice" required>

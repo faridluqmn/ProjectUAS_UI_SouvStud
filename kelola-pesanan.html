@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Pesanan - SouvenirStudio Admin</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color: #020072;
+            --secondary-color: #000f66;
+            --dark-color: #000f3a;
+            --light-color: #F8F9FA;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+            --warning-color: #fd7e14;
+            --info-color: #17a2b8;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --max-width: 1400px;
+        }
+
+        body {
+            background-color: var(--gray-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav ul li {
+            margin: 0.2rem 0;
+        }
+
+        .sidebar-nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav ul li a:hover,
+        .sidebar-nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .sidebar-nav ul li a i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-footer .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.8rem;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-name {
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: all 0.3s;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--gray-color);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            flex: 0 0 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            margin-left: 0.5rem;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .topbar-actions .action-item {
+            margin-left: 1.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .topbar-actions .action-item i {
+            font-size: 1.2rem;
+        }
+
+        .topbar-actions .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Filters */
+        .filters-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .stat-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+
+        .stat-card .stat-title {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-card .positive {
+            color: var(--success-color);
+        }
+
+        .stat-card .negative {
+            color: var(--danger-color);
+        }
+
+        /* Orders Table */
+        .orders-table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .bulk-actions select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .orders-table th {
+            background-color: var(--light-color);
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .orders-table tr:hover {
+            background-color: rgba(2, 0, 114, 0.02);
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .customer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .customer-details h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+            color: var(--dark-color);
+        }
+
+        .customer-details p {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .product-thumbnail {
+            width: 50px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .product-details h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+            color: var(--dark-color);
+        }
+
+        .product-details p {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        .status-processing {
+            background-color: rgba(23, 162, 184, 0.2);
+            color: #0c5460;
+        }
+
+        .status-shipped {
+            background-color: rgba(108, 117, 125, 0.2);
+            color: #495057;
+        }
+
+        .status-delivered {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .status-completed {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #721c24;
+        }
+
+        .price-amount {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* User Dropdown */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            z-index: 10;
+        }
+
+        .user-dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f0f0;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #ddd;
+            margin: 4px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn.edit {
+            background-color: var(--info-color);
+            color: white;
+        }
+
+        .action-btn.edit:hover {
+            background-color: #138496;
+        }
+
+        .action-btn.delete {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background-color: #c82333;
+        }
+
+        .action-btn.view {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .action-btn.view:hover {
+            background-color: #218838;
+        }
+
+        .action-btn.print {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .action-btn.print:hover {
+            background-color: #e0a800;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 900px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close:hover {
+            color: var(--danger-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .product-list {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .product-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .add-product-btn {
+            width: 100%;
+            padding: 1rem;
+            border: 2px dashed var(--border-color);
+            background: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: all 0.3s;
+        }
+
+        .add-product-btn:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(2, 0, 114, 0.02);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: none;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0;
+                font-size: 1.5rem;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: block;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0.8rem;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .page-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .orders-table {
+                font-size: 0.8rem;
+            }
+
+            .product-thumbnail {
+                width: 40px;
+                height: 30px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">Souvenir<span>Studio</span></a>
+            </div>
+
+            <div class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html">📊 <span>Dashboard</span></a></li>
+                    <li><a href="kelola-produk.html">📦 <span>Produk</span></a></li>
+                    <li><a href="kelola-artikel.html">📝 <span>Artikel</span></a></li>
+                    <li><a href="kelola-pesanan.html" class="active">🛒 <span>Pesanan</span></a></li>
+                    <li><a href="kelola-pelanggan.html">👥 <span>Pelanggan</span></a></li>
+                    <li><a href="kategori.html">🏷️ <span>Kategori</span></a></li>
+                    <li><a href="laporan.html">📈 <span>Laporan</span></a></li>
+                    <li><a href="komentar.html">💬 <span>Komentar</span></a></li>
+                    <li><a href="pengaturan.html">⚙️ <span>Pengaturan</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div>
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <button class="toggle-sidebar">☰</button>
+
+                <div class="search-box">
+                    🔍 <input type="text" placeholder="Cari pesanan...">
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="action-item">
+                        🔔 <span class="badge">3</span>
+                    </div>
+                    <div class="action-item">
+                        ✉️ <span class="badge">5</span>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="action-item">👤</div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item" onclick="goToAdmin()">Administrator</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="logout()">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">Kelola Pesanan</h1>
+                    <div class="page-actions">
+                        <a href="#" class="btn btn-outline">
+                            📤 Export Data
+                        </a>
+                        <a href="#" class="btn btn-outline">
+                            📥 Import Data
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-title">Total Pesanan</div>
+                        <div class="stat-value">248</div>
+                        <div class="stat-change positive">↑ 12 pesanan baru bulan ini</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-title">Menunggu Proses</div>
+                        <div class="stat-value">32</div>
+                        <div class="stat-change negative">↑ 5 pesanan baru hari ini</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-title">Pesanan Selesai</div>
+                        <div class="stat-value">195</div>
+                        <div class="stat-change positive">↑ 78.6% dari total pesanan</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-title">Total Pendapatan</div>
+                        <div class="stat-value">Rp 45.2Jt</div>
+                        <div class="stat-change positive">↑ 15.3% dibanding bulan lalu</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select id="statusFilter">
+                                <option value="">Semua Status</option>
+                                <option value="pending">Menunggu Pembayaran</option>
+                                <option value="processing">Diproses</option>
+                                <option value="shipped">Dikirim</option>
+                                <option value="delivered">Diterima</option>
+                                <option value="completed">Selesai</option>
+                                <option value="cancelled">Dibatalkan</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Metode Pembayaran</label>
+                            <select id="paymentFilter">
+                                <option value="">Semua Metode</option>
+                                <option value="transfer">Transfer Bank</option>
+                                <option value="ewallet">E-Wallet</option>
+                                <option value="cod">COD</option>
+                                <option value="credit">Kartu Kredit</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Kurir</label>
+                            <select id="courierFilter">
+                                <option value="">Semua Kurir</option>
+                                <option value="jne">JNE</option>
+                                <option value="jnt">J&T</option>
+                                <option value="pos">POS Indonesia</option>
+                                <option value="sicepat">SiCepat</option>
+                                <option value="anteraja">AnterAja</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Tanggal Dari</label>
+                            <input type="date" id="dateFrom">
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Tanggal Sampai</label>
+                            <input type="date" id="dateTo">
+                        </div>
+
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-primary" onclick="applyFilters()">🔍 Filter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Table -->
+                <div class="orders-table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Daftar Pesanan</h3>
+                        <div class="table-actions">
+                            <div class="bulk-actions">
+                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                <select id="bulkAction">
+                                    <option value="">Aksi Massal</option>
+                                    <option value="process">Proses Pesanan</option>
+                                    <option value="ship">Kirim Pesanan</option>
+                                    <option value="complete">Selesaikan Pesanan</option>
+                                    <option value="cancel">Batalkan Pesanan</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="executeBulkAction()">Jalankan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllHeader"></th>
+                                <th>ID Pesanan</th>
+                                <th>Pelanggan</th>
+                                <th>Produk</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Pembayaran</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td><input type="checkbox" class="order-checkbox" value="1"></td>
+                                <td><strong>#ORD-2025001</strong></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #3b82f6; color: white;">BP</div>
+                                        <div class="customer-details">
+                                            <h4>Budi Pratama</h4>
+                                            <p>Jakarta</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="https://radarbanyumas.disway.id/upload/241283e848051ef3fa15306b8c46a73f.jpg"
+                                            alt="Batik Mega Mendung" class="product-thumbnail">
+                                        <div class="product-details">
+                                            <h4>Batik Mega Mendung</h4>
+                                            <p>2 item</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="price-amount">Rp 850.000</span></td>
+                                <td><span class="status-badge status-processing">Diproses</span></td>
+                                <td>Transfer Bank</td>
+                                <td>15/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewOrder(1)">👁️</button>
+                                        <button class="action-btn edit" onclick="editOrder(1)">✏️</button>
+                                        <button class="action-btn print" onclick="printOrder(1)">🖨️</button>
+                                        <button class="action-btn delete" onclick="deleteOrder(1)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="order-checkbox" value="2"></td>
+                                <td><strong>#ORD-2025002</strong></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #10b981; color: white;">SI</div>
+                                        <div class="customer-details">
+                                            <h4>Sari Indah</h4>
+                                            <p>Bandung</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHZKzeww2k6Bs02Yboi0FzJ8kftT-YYDXpjw&s"
+                                            alt="Tenun Ikat Flores" class="product-thumbnail">
+                                        <div class="product-details">
+                                            <h4>Tenun Ikat Flores</h4>
+                                            <p>1 item</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="price-amount">Rp 1.250.000</span></td>
+                                <td><span class="status-badge status-shipped">Dikirim</span></td>
+                                <td>E-Wallet</td>
+                                <td>14/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewOrder(2)">👁️</button>
+                                        <button class="action-btn edit" onclick="editOrder(2)">✏️</button>
+                                        <button class="action-btn print" onclick="printOrder(2)">🖨️</button>
+                                        <button class="action-btn delete" onclick="deleteOrder(2)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="order-checkbox" value="3"></td>
+                                <td><strong>#ORD-2025003</strong></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #8b5cf6; color: white;">DP</div>
+                                        <div class="customer-details">
+                                            <h4>Dewi Putri</h4>
+                                            <p>Surabaya</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="https://assets-a1.kompasiana.com/items/album/2022/08/10/whatsapp-image-2022-08-09-at-6-00-04-pm-62f3032f08a8b5244b6b5224.jpeg"
+                                            alt="Wayang Kulit Mini" class="product-thumbnail">
+                                        <div class="product-details">
+                                            <h4>Wayang Kulit Mini</h4>
+                                            <p>3 item</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="price-amount">Rp 750.000</span></td>
+                                <td><span class="status-badge status-completed">Selesai</span></td>
+                                <td>Kartu Kredit</td>
+                                <td>10/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewOrder(3)">👁️</button>
+                                        <button class="action-btn edit" onclick="editOrder(3)">✏️</button>
+                                        <button class="action-btn print" onclick="printOrder(3)">🖨️</button>
+                                        <button class="action-btn delete" onclick="deleteOrder(3)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="order-checkbox" value="4"></td>
+                                <td><strong>#ORD-2025004</strong></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #f59e0b; color: white;">AS</div>
+                                        <div class="customer-details">
+                                            <h4>Andi Susanto</h4>
+                                            <p>Yogyakarta</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="https://portalnews.stekom.ac.id/media/8793/10-makanan-tradisional-indonesia-yang-wajib-dicoba.jpg"
+                                            alt="Gerabah Lombok" class="product-thumbnail">
+                                        <div class="product-details">
+                                            <h4>Gerabah Lombok</h4>
+                                            <p>5 item</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="price-amount">Rp 625.000</span></td>
+                                <td><span class="status-badge status-pending">Menunggu Pembayaran</span></td>
+                                <td>Transfer Bank</td>
+                                <td>08/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewOrder(4)">👁️</button>
+                                        <button class="action-btn edit" onclick="editOrder(4)">✏️</button>
+                                        <button class="action-btn print" onclick="printOrder(4)">🖨️</button>
+                                        <button class="action-btn delete" onclick="deleteOrder(4)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="order-checkbox" value="5"></td>
+                                <td><strong>#ORD-2025005</strong></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #ef4444; color: white;">RW</div>
+                                        <div class="customer-details">
+                                            <h4>Rini Wijaya</h4>
+                                            <p>Semarang</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="https://www.watersportbali.co.id/wp-content/uploads/2019/02/15.-Ide-Wisata-Budaya-di-Bali-yang-Membuat-Kamu-Makin-Cinta-Indonesia-1.jpg.webp"
+                                            alt="Ukiran Jepara" class="product-thumbnail">
+                                        <div class="product-details">
+                                            <h4>Ukiran Jepara</h4>
+                                            <p>1 item</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="price-amount">Rp 2.750.000</span></td>
+                                <td><span class="status-badge status-cancelled">Dibatalkan</span></td>
+                                <td>COD</td>
+                                <td>05/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewOrder(5)">👁️</button>
+                                        <button class="action-btn edit" onclick="editOrder(5)">✏️</button>
+                                        <button class="action-btn print" onclick="printOrder(5)">🖨️</button>
+                                        <button class="action-btn delete" onclick="deleteOrder(5)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="order-checkbox" value="6"></td>
+                                <td><strong>#ORD-2025006</strong></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #06b6d4; color: white;">FH</div>
+                                        <div class="customer-details">
+                                            <h4>Fajar Hidayat</h4>
+                                            <p>Makassar</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="https://awsimages.detik.net.id/community/media/visual/2024/10/26/songket-palembang-perajin-pupuk-indonesia-di-jfw-2025.jpeg?w=600&q=90"
+                                            alt="Songket Palembang" class="product-thumbnail">
+                                        <div class="product-details">
+                                            <h4>Songket Palembang</h4>
+                                            <p>2 item</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="price-amount">Rp 3.500.000</span></td>
+                                <td><span class="status-badge status-delivered">Diterima</span></td>
+                                <td>E-Wallet</td>
+                                <td>01/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewOrder(6)">👁️</button>
+                                        <button class="action-btn edit" onclick="editOrder(6)">✏️</button>
+                                        <button class="action-btn print" onclick="printOrder(6)">🖨️</button>
+                                        <button class="action-btn delete" onclick="deleteOrder(6)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Menampilkan 1-6 dari 248 pesanan
+                        </div>
+                        <div class="pagination">
+                            <button disabled>‹ Sebelumnya</button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button>...</button>
+                            <button>42</button>
+                            <button>Selanjutnya ›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Tambah Pesanan Baru</h3>
+                <span class="close" onclick="closeOrderModal()">&times;</span>
+            </div>
+            <form id="orderForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerName">Nama Pelanggan</label>
+                        <input type="text" id="customerName" name="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email Pelanggan</label>
+                        <input type="email" id="customerEmail" name="customerEmail" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerPhone">Nomor Telepon</label>
+                        <input type="tel" id="customerPhone" name="customerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerType">Tipe Pelanggan</label>
+                        <select id="customerType" name="customerType" required>
+                            <option value="new">Baru</option>
+                            <option value="regular">Reguler</option>
+                            <option value="vip">VIP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="shippingAddress">Alamat Pengiriman</label>
+                    <textarea id="shippingAddress" name="shippingAddress" rows="3"
+                        placeholder="Masukkan alamat lengkap pengiriman..."></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Produk Pesanan</label>
+                    <div class="product-list" id="productList">
+                        <div class="product-item">
+                            <select name="product[]" required>
+                                <option value="">Pilih Produk</option>
+                                <option value="batik">Batik Mega Mendung - Rp 425.000</option>
+                                <option value="tenun">Tenun Ikat Flores - Rp 1.250.000</option>
+                                <option value="wayang">Wayang Kulit Mini - Rp 250.000</option>
+                                <option value="gerabah">Gerabah Lombok - Rp 125.000</option>
+                                <option value="ukiran">Ukiran Jepara - Rp 2.750.000</option>
+                            </select>
+                            <input type="number" name="quantity[]" min="1" value="1" placeholder="Jumlah">
+                            <input type="text" name="price[]" placeholder="Harga" readonly>
+                            <button type="button" class="btn btn-danger" onclick="removeProduct(this)">🗑️</button>
+                        </div>
+                    </div>
+                    <button type="button" class="add-product-btn" onclick="addProduct()">
+                        ➕ Tambah Produk Lain
+                    </button>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="paymentMethod">Metode Pembayaran</label>
+                        <select id="paymentMethod" name="paymentMethod" required>
+                            <option value="transfer">Transfer Bank</option>
+                            <option value="ewallet">E-Wallet</option>
+                            <option value="cod">COD</option>
+                            <option value="credit">Kartu Kredit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentStatus">Status Pembayaran</label>
+                        <select id="paymentStatus" name="paymentStatus" required>
+                            <option value="pending">Menunggu</option>
+                            <option value="paid">Dibayar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="courier">Kurir</label>
+                        <select id="courier" name="courier" required>
+                            <option value="jne">JNE</option>
+                            <option value="jnt">J&T</option>
+                            <option value="pos">POS Indonesia</option>
+                            <option value="sicepat">SiCepat</option>
+                            <option value="anteraja">AnterAja</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingCost">Ongkos Kirim</label>
+                        <input type="number" id="shippingCost" name="shippingCost" placeholder="25000">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="orderNotes">Catatan Pesanan</label>
+                    <textarea id="orderNotes" name="orderNotes" rows="3"
+                        placeholder="Tambahkan catatan untuk pesanan ini..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeOrderModal()">Batal</button>
+                    <button type="submit" class="btn btn-primary">💾 Simpan Pesanan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.toggle-sidebar').addEventListener('click', function () {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        });
+
+        // Order Modal Functions
+
+        function editOrder(id) {
+            document.getElementById('modalTitle').textContent = 'Edit Pesanan #ORD-202500' + id;
+            // Here you would populate the form with existing order data
+            document.getElementById('orderModal').style.display = 'block';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function viewOrder(id) {
+            alert('Melihat detail pesanan #ORD-202500' + id);
+            // Here you would open a detailed view modal or navigate to detail page
+        }
+
+        function printOrder(id) {
+            alert('Mencetak invoice pesanan #ORD-202500' + id);
+            // Here you would generate and print the invoice
+        }
+
+        function deleteOrder(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) {
+                alert('Pesanan #ORD-202500' + id + ' telah dihapus');
+                // Here you would make an API call to delete the order
+            }
+        }
+
+        // Select All Functionality
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.order-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        }
+
+        // Bulk Actions
+        function executeBulkAction() {
+            const action = document.getElementById('bulkAction').value;
+            const selectedOrders = Array.from(document.querySelectorAll('.order-checkbox:checked')).map(cb => cb.value);
+
+            if (!action) {
+                alert('Pilih aksi yang ingin dilakukan');
+                return;
+            }
+
+            if (selectedOrders.length === 0) {
+                alert('Pilih minimal satu pesanan');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin ${action} ${selectedOrders.length} pesanan yang dipilih?`)) {
+                alert(`Aksi ${action} telah dilakukan pada ${selectedOrders.length} pesanan`);
+                // Here you would make an API call to perform the bulk action
+            }
+        }
+
+        // Filter Functions
+        function applyFilters() {
+            const status = document.getElementById('statusFilter').value;
+            const payment = document.getElementById('paymentFilter').value;
+            const courier = document.getElementById('courierFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+
+            // Here you would filter the table based on the selected criteria
+            alert('Filter diterapkan: ' + JSON.stringify({ status, payment, courier, dateFrom, dateTo }));
+        }
+
+        // Product Management in Modal
+        function addProduct() {
+            const productList = document.getElementById('productList');
+            const newProduct = document.createElement('div');
+            newProduct.className = 'product-item';
+            newProduct.innerHTML = `
+                <select name="product[]" required>
+                    <option value="">Pilih Produk</option>
+                    <option value="batik">Batik Mega Mendung - Rp 425.000</option>
+                    <option value="tenun">Tenun Ikat Flores - Rp 1.250.000</option>
+                    <option value="wayang">Wayang Kulit Mini - Rp 250.000</option>
+                    <option value="gerabah">Gerabah Lombok - Rp 125.000</option>
+                    <option value="ukiran">Ukiran Jepara - Rp 2.750.000</option>
+                </select>
+                <input type="number" name="quantity[]" min="1" value="1" placeholder="Jumlah">
+                <input type="text" name="price[]" placeholder="Harga" readonly>
+                <button type="button" class="btn btn-danger" onclick="removeProduct(this)">🗑️</button>
+            `;
+            productList.appendChild(newProduct);
+        }
+
+        function removeProduct(button) {
+            const productList = document.getElementById('productList');
+            if (productList.children.length > 1) {
+                button.parentElement.remove();
+            } else {
+                alert('Minimal harus ada satu produk');
+            }
+        }
+
+        // Auto-fill price when product is selected
+        document.addEventListener('change', function (e) {
+            if (e.target.name === 'product[]') {
+                const priceInput = e.target.parentElement.querySelector('input[name="price[]"]');
+                const productValue = e.target.value;
+                
+                const prices = {
+                    'batik': '425000',
+                    'tenun': '1250000',
+                    'wayang': '250000',
+                    'gerabah': '125000',
+                    'ukiran': '2750000'
+                };
+                
+                if (prices[productValue]) {
+                    priceInput.value = 'Rp ' + parseInt(prices[productValue]).toLocaleString('id-ID');
+                }
+            }
+        });
+
+        // Form Submission
+        document.getElementById('orderForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const orderData = Object.fromEntries(formData);
+
+            // Here you would make an API call to save the order
+            alert('Pesanan berhasil disimpan: ' + JSON.stringify(orderData));
+            closeOrderModal();
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('orderModal');
+            if (e.target === modal) {
+                closeOrderModal();
+            }
+        });
+
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#ordersTableBody tr');
+
+            rows.forEach(row => {
+                const orderId = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const customerName = row.querySelector('.customer-details h4').textContent.toLowerCase();
+                const productName = row.querySelector('.product-details h4').textContent.toLowerCase();
+
+                if (orderId.includes(searchTerm) || customerName.includes(searchTerm) || productName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Toggle dropdown
+        document.getElementById('userDropdown').addEventListener('click', function () {
+            this.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('userDropdown');
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Action functions
+        function goToAdmin() {
+            window.location.href = '../admin/dashboard.html';
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../userpage/login.html';
+        }
+
+        // Auto-save functionality (every 30 seconds)
+        let autoSaveInterval;
+
+        function startAutoSave() {
+            autoSaveInterval = setInterval(() => {
+                if (document.getElementById('orderModal').style.display === 'block') {
+                    const customerName = document.getElementById('customerName').value;
+                    if (customerName.trim()) {
+                        console.log('Auto-saving order...');
+                        // Here you would make an API call to auto-save
+                    }
+                }
+            }, 30000);
+        }
+
+        function stopAutoSave() {
+            if (autoSaveInterval) {
+                clearInterval(autoSaveInterval);
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            // Ctrl+S to save
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                if (document.getElementById('orderModal').style.display === 'block') {
+                    document.getElementById('orderForm').dispatchEvent(new Event('submit'));
+                }
+            }
+
+            // Escape to close modal
+            if (e.key === 'Escape') {
+                if (document.getElementById('orderModal').style.display === 'block') {
+                    closeOrderModal();
+                }
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set current date as default for date filters
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateFrom').value = today;
+            document.getElementById('dateTo').value = today;
+            
+            // Initialize tooltips or other UI components if needed
+            console.log('Order management page initialized');
+        });
+
+        // Calculate total for order
+        function calculateOrderTotal() {
+            let total = 0;
+            const productItems = document.querySelectorAll('.product-item');
+            
+            productItems.forEach(item => {
+                const priceText = item.querySelector('input[name="price[]"]').value;
+                const quantity = parseInt(item.querySelector('input[name="quantity[]"]').value) || 0;
+                
+                if (priceText) {
+                    const price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+                    total += price * quantity;
+                }
+            });
+            
+            const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
+            total += shippingCost;
+            
+            return total;
+        }
+
+        // Update total when quantities change
+        document.addEventListener('input', function (e) {
+            if (e.target.name === 'quantity[]' || e.target.id === 'shippingCost') {
+                const total = calculateOrderTotal();
+                console.log('Order total: Rp', total.toLocaleString('id-ID'));
+            }
+        });
+
+        // Export functionality
+        function exportOrders() {
+            alert('Mengekspor data pesanan...');
+            // Here you would implement CSV/Excel export
+        }
+
+        // Import functionality
+        function importOrders() {
+            alert('Mengimpor data pesanan...');
+            // Here you would implement file upload and import
+        }
+
+        // Print invoice
+        function printInvoice(orderId) {
+            window.open('invoice.html?order=' + orderId, '_blank');
+        }
+
+        // Status update functions
+        function updateOrderStatus(orderId, newStatus) {
+            if (confirm(`Ubah status pesanan ${orderId} menjadi ${newStatus}?`)) {
+                alert(`Status pesanan ${orderId} berhasil diubah menjadi ${newStatus}`);
+                // Here you would make an API call to update status
+                location.reload();
+            }
+        }
+
+        // Quick status change buttons
+        function processOrder(orderId) {
+            updateOrderStatus(orderId, 'Diproses');
+        }
+
+        function shipOrder(orderId) {
+            const trackingNumber = prompt('Masukkan nomor resi:');
+            if (trackingNumber) {
+                alert(`Pesanan ${orderId} berhasil dikirim dengan resi ${trackingNumber}`);
+                // Here you would update order with tracking number
+            }
+        }
+
+        function completeOrder(orderId) {
+            updateOrderStatus(orderId, 'Selesai');
+        }
+
+        function cancelOrder(orderId) {
+            const reason = prompt('Alasan pembatalan:');
+            if (reason) {
+                alert(`Pesanan ${orderId} dibatalkan. Alasan: ${reason}`);
+                // Here you would update order with cancellation reason
+            }
+        }
+    </script>
+</body>
+
+</html>

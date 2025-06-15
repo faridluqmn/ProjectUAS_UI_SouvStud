@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Pelanggan - SouvenirStudio Admin</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --primary-color: #020072;
+            --secondary-color: #000f66;
+            --dark-color: #000f3a;
+            --light-color: #F8F9FA;
+            --gray-color: #E9ECEF;
+            --accent-color: #FFC107;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+            --warning-color: #fd7e14;
+            --info-color: #17a2b8;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --max-width: 1400px;
+        }
+
+        body {
+            background-color: var(--gray-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav ul li {
+            margin: 0.2rem 0;
+        }
+
+        .sidebar-nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav ul li a:hover,
+        .sidebar-nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .sidebar-nav ul li a i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-footer .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.8rem;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-name {
+            font-weight: bold;
+        }
+
+        .sidebar-footer .user-role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: all 0.3s;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--gray-color);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            flex: 0 0 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            margin-left: 0.5rem;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .topbar-actions .action-item {
+            margin-left: 1.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .topbar-actions .action-item i {
+            font-size: 1.2rem;
+        }
+
+        .topbar-actions .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Filters */
+        .filters-section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .stat-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+
+        .stat-card .stat-title {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-card .positive {
+            color: var(--success-color);
+        }
+
+        .stat-card .negative {
+            color: var(--danger-color);
+        }
+
+        /* Customers Table */
+        .customers-table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .bulk-actions select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .customers-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .customers-table th,
+        .customers-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .customers-table th {
+            background-color: var(--light-color);
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .customers-table tr:hover {
+            background-color: rgba(2, 0, 114, 0.02);
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .customer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .customer-details h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            color: var(--dark-color);
+        }
+
+        .customer-details p {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-active {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .status-inactive {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #721c24;
+        }
+
+        .status-suspended {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        .customer-type-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .type-new {
+            background-color: rgba(23, 162, 184, 0.2);
+            color: #0c5460;
+        }
+
+        .type-regular {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .type-vip {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        /* User Dropdown */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            z-index: 10;
+        }
+
+        .user-dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f0f0;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: #ddd;
+            margin: 4px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn.edit {
+            background-color: var(--info-color);
+            color: white;
+        }
+
+        .action-btn.edit:hover {
+            background-color: #138496;
+        }
+
+        .action-btn.delete {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background-color: #c82333;
+        }
+
+        .action-btn.view {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .action-btn.view:hover {
+            background-color: #218838;
+        }
+
+        .action-btn.message {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .action-btn.message:hover {
+            background-color: #e0a800;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .close:hover {
+            color: var(--danger-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .customer-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--light-color);
+            border-radius: 8px;
+        }
+
+        .stat-item .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: none;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0;
+                font-size: 1.5rem;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar .logo span,
+            .sidebar-nav ul li a span,
+            .sidebar-footer .user-info {
+                display: block;
+            }
+
+            .sidebar-nav ul li a i {
+                margin-right: 0.8rem;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .page-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .customers-table {
+                font-size: 0.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 1rem;
+            }
+
+            .customer-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">Souvenir<span>Studio</span></a>
+            </div>
+
+            <div class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html">📊 <span>Dashboard</span></a></li>
+                    <li><a href="kelola-produk.html">📦 <span>Produk</span></a></li>
+                    <li><a href="kelola-artikel.html">📝 <span>Artikel</span></a></li>
+                    <li><a href="kelola-pesanan.html">🛒 <span>Pesanan</span></a></li>
+                    <li><a href="kelola-pelanggan.html" class="active">👥 <span>Pelanggan</span></a></li>
+                    <li><a href="kategori.html">🏷️ <span>Kategori</span></a></li>
+                    <li><a href="laporan.html">📈 <span>Laporan</span></a></li>
+                    <li><a href="komentar.html">💬 <span>Komentar</span></a></li>
+                    <li><a href="pengaturan.html">⚙️ <span>Pengaturan</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div>
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <button class="toggle-sidebar">☰</button>
+
+                <div class="search-box">
+                    🔍 <input type="text" placeholder="Cari pelanggan...">
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="action-item">
+                        🔔 <span class="badge">3</span>
+                    </div>
+                    <div class="action-item">
+                        ✉️ <span class="badge">5</span>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="action-item">👤</div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item" onclick="goToAdmin()">Administrator</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item" onclick="logout()">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">Kelola Pelanggan</h1>
+                    <div class="page-actions">
+                        <a href="#" class="btn btn-outline">
+                            📤 Export Data
+                        </a>
+                        <a href="#" class="btn btn-outline">
+                            📥 Import Data
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-title">Total Pelanggan</div>
+                        <div class="stat-value">1,247</div>
+                        <div class="stat-change positive">↑ 23 pelanggan baru bulan ini</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-title">Pelanggan Aktif</div>
+                        <div class="stat-value">1,156</div>
+                        <div class="stat-change positive">↑ 92.7% dari total pelanggan</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-title">Pelanggan VIP</div>
+                        <div class="stat-value">89</div>
+                        <div class="stat-change positive">↑ 7.1% dari total pelanggan</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-title">Rata-rata Pembelian</div>
+                        <div class="stat-value">Rp 850K</div>
+                        <div class="stat-change positive">↑ 12.5% dibanding bulan lalu</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label>Status</label>
+                            <select id="statusFilter">
+                                <option value="">Semua Status</option>
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Tidak Aktif</option>
+                                <option value="suspended">Ditangguhkan</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Tipe Pelanggan</label>
+                            <select id="typeFilter">
+                                <option value="">Semua Tipe</option>
+                                <option value="new">Baru</option>
+                                <option value="regular">Reguler</option>
+                                <option value="vip">VIP</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Kota</label>
+                            <select id="cityFilter">
+                                <option value="">Semua Kota</option>
+                                <option value="jakarta">Jakarta</option>
+                                <option value="bandung">Bandung</option>
+                                <option value="surabaya">Surabaya</option>
+                                <option value="yogyakarta">Yogyakarta</option>
+                                <option value="semarang">Semarang</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Tanggal Daftar Dari</label>
+                            <input type="date" id="dateFrom">
+                        </div>
+
+                        <div class="filter-group">
+                            <label>Tanggal Daftar Sampai</label>
+                            <input type="date" id="dateTo">
+                        </div>
+
+                        <div class="filter-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-primary" onclick="applyFilters()">🔍 Filter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customers Table -->
+                <div class="customers-table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Daftar Pelanggan</h3>
+                        <div class="table-actions">
+                            <div class="bulk-actions">
+                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                <select id="bulkAction">
+                                    <option value="">Aksi Massal</option>
+                                    <option value="activate">Aktifkan</option>
+                                    <option value="deactivate">Nonaktifkan</option>
+                                    <option value="upgrade">Upgrade ke VIP</option>
+                                    <option value="send_newsletter">Kirim Newsletter</option>
+                                    <option value="delete">Hapus</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="executeBulkAction()">Jalankan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="customers-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllHeader"></th>
+                                <th>Pelanggan</th>
+                                <th>Email & Telepon</th>
+                                <th>Lokasi</th>
+                                <th>Tipe</th>
+                                <th>Total Pesanan</th>
+                                <th>Total Pembelian</th>
+                                <th>Status</th>
+                                <th>Terdaftar</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTableBody">
+                            <tr>
+                                <td><input type="checkbox" class="customer-checkbox" value="1"></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #3b82f6;">BP</div>
+                                        <div class="customer-details">
+                                            <h4>Budi Pratama</h4>
+                                            <p>ID: #CUST-001</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div>budi.pratama@email.com</div>
+                                        <div style="color: #6c757d; font-size: 0.8rem;">081234567890</div>
+                                    </div>
+                                </td>
+                                <td>Jakarta Selatan</td>
+                                <td><span class="customer-type-badge type-vip">VIP</span></td>
+                                <td><strong>15</strong> pesanan</td>
+                                <td><strong>Rp 12.750.000</strong></td>
+                                <td><span class="status-badge status-active">Aktif</span></td>
+                                <td>15/01/2024</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewCustomer(1)">👁️</button>
+                                        <button class="action-btn edit" onclick="editCustomer(1)">✏️</button>
+                                        <button class="action-btn message" onclick="messageCustomer(1)">💬</button>
+                                        <button class="action-btn delete" onclick="deleteCustomer(1)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="customer-checkbox" value="2"></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #10b981;">SI</div>
+                                        <div class="customer-details">
+                                            <h4>Sari Indah</h4>
+                                            <p>ID: #CUST-002</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div>sari.indah@email.com</div>
+                                        <div style="color: #6c757d; font-size: 0.8rem;">082345678901</div>
+                                    </div>
+                                </td>
+                                <td>Bandung</td>
+                                <td><span class="customer-type-badge type-regular">Reguler</span></td>
+                                <td><strong>8</strong> pesanan</td>
+                                <td><strong>Rp 6.400.000</strong></td>
+                                <td><span class="status-badge status-active">Aktif</span></td>
+                                <td>22/02/2024</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewCustomer(2)">👁️</button>
+                                        <button class="action-btn edit" onclick="editCustomer(2)">✏️</button>
+                                        <button class="action-btn message" onclick="messageCustomer(2)">💬</button>
+                                        <button class="action-btn delete" onclick="deleteCustomer(2)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="customer-checkbox" value="3"></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #8b5cf6;">DP</div>
+                                        <div class="customer-details">
+                                            <h4>Dewi Putri</h4>
+                                            <p>ID: #CUST-003</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div>dewi.putri@email.com</div>
+                                        <div style="color: #6c757d; font-size: 0.8rem;">083456789012</div>
+                                    </div>
+                                </td>
+                                <td>Surabaya</td>
+                                <td><span class="customer-type-badge type-regular">Reguler</span></td>
+                                <td><strong>5</strong> pesanan</td>
+                                <td><strong>Rp 3.750.000</strong></td>
+                                <td><span class="status-badge status-active">Aktif</span></td>
+                                <td>10/03/2024</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewCustomer(3)">👁️</button>
+                                        <button class="action-btn edit" onclick="editCustomer(3)">✏️</button>
+                                        <button class="action-btn message" onclick="messageCustomer(3)">💬</button>
+                                        <button class="action-btn delete" onclick="deleteCustomer(3)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="customer-checkbox" value="4"></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #f59e0b;">AS</div>
+                                        <div class="customer-details">
+                                            <h4>Andi Susanto</h4>
+                                            <p>ID: #CUST-004</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div>andi.susanto@email.com</div>
+                                        <div style="color: #6c757d; font-size: 0.8rem;">084567890123</div>
+                                    </div>
+                                </td>
+                                <td>Yogyakarta</td>
+                                <td><span class="customer-type-badge type-new">Baru</span></td>
+                                <td><strong>2</strong> pesanan</td>
+                                <td><strong>Rp 1.375.000</strong></td>
+                                <td><span class="status-badge status-active">Aktif</span></td>
+                                <td>05/04/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewCustomer(4)">👁️</button>
+                                        <button class="action-btn edit" onclick="editCustomer(4)">✏️</button>
+                                        <button class="action-btn message" onclick="messageCustomer(4)">💬</button>
+                                        <button class="action-btn delete" onclick="deleteCustomer(4)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="customer-checkbox" value="5"></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #ef4444;">RW</div>
+                                        <div class="customer-details">
+                                            <h4>Rini Wijaya</h4>
+                                            <p>ID: #CUST-005</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div>rini.wijaya@email.com</div>
+                                        <div style="color: #6c757d; font-size: 0.8rem;">085678901234</div>
+                                    </div>
+                                </td>
+                                <td>Semarang</td>
+                                <td><span class="customer-type-badge type-regular">Reguler</span></td>
+                                <td><strong>0</strong> pesanan</td>
+                                <td><strong>Rp 0</strong></td>
+                                <td><span class="status-badge status-inactive">Tidak Aktif</span></td>
+                                <td>20/03/2025</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewCustomer(5)">👁️</button>
+                                        <button class="action-btn edit" onclick="editCustomer(5)">✏️</button>
+                                        <button class="action-btn message" onclick="messageCustomer(5)">💬</button>
+                                        <button class="action-btn delete" onclick="deleteCustomer(5)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="customer-checkbox" value="6"></td>
+                                <td>
+                                    <div class="customer-info">
+                                        <div class="customer-avatar" style="background-color: #06b6d4;">FH</div>
+                                        <div class="customer-details">
+                                            <h4>Fajar Hidayat</h4>
+                                            <p>ID: #CUST-006</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div>fajar.hidayat@email.com</div>
+                                        <div style="color: #6c757d; font-size: 0.8rem;">086789012345</div>
+                                    </div>
+                                </td>
+                                <td>Makassar</td>
+                                <td><span class="customer-type-badge type-vip">VIP</span></td>
+                                <td><strong>22</strong> pesanan</td>
+                                <td><strong>Rp 18.500.000</strong></td>
+                                <td><span class="status-badge status-active">Aktif</span></td>
+                                <td>08/12/2023</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn view" onclick="viewCustomer(6)">👁️</button>
+                                        <button class="action-btn edit" onclick="editCustomer(6)">✏️</button>
+                                        <button class="action-btn message" onclick="messageCustomer(6)">💬</button>
+                                        <button class="action-btn delete" onclick="deleteCustomer(6)">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Menampilkan 1-6 dari 1,247 pelanggan
+                        </div>
+                        <div class="pagination">
+                            <button disabled>‹ Sebelumnya</button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button>...</button>
+                            <button>208</button>
+                            <button>Selanjutnya ›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Customer Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Tambah Pelanggan Baru</h3>
+                <span class="close" onclick="closeCustomerModal()">&times;</span>
+            </div>
+            <form id="customerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerName">Nama Lengkap</label>
+                        <input type="text" id="customerName" name="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email</label>
+                        <input type="email" id="customerEmail" name="customerEmail" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerPhone">Nomor Telepon</label>
+                        <input type="tel" id="customerPhone" name="customerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerType">Tipe Pelanggan</label>
+                        <select id="customerType" name="customerType" required>
+                            <option value="new">Baru</option>
+                            <option value="regular">Reguler</option>
+                            <option value="vip">VIP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerGender">Jenis Kelamin</label>
+                        <select id="customerGender" name="customerGender">
+                            <option value="">Pilih Jenis Kelamin</option>
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerBirthdate">Tanggal Lahir</label>
+                        <input type="date" id="customerBirthdate" name="customerBirthdate">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customerCity">Kota</label>
+                        <select id="customerCity" name="customerCity" required>
+                            <option value="">Pilih Kota</option>
+                            <option value="jakarta">Jakarta</option>
+                            <option value="bandung">Bandung</option>
+                            <option value="surabaya">Surabaya</option>
+                            <option value="yogyakarta">Yogyakarta</option>
+                            <option value="semarang">Semarang</option>
+                            <option value="makassar">Makassar</option>
+                            <option value="medan">Medan</option>
+                            <option value="palembang">Palembang</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerStatus">Status</label>
+                        <select id="customerStatus" name="customerStatus" required>
+                            <option value="active">Aktif</option>
+                            <option value="inactive">Tidak Aktif</option>
+                            <option value="suspended">Ditangguhkan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="customerAddress">Alamat Lengkap</label>
+                    <textarea id="customerAddress" name="customerAddress" rows="3"
+                        placeholder="Masukkan alamat lengkap pelanggan..."></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="customerNotes">Catatan</label>
+                    <textarea id="customerNotes" name="customerNotes" rows="3"
+                        placeholder="Tambahkan catatan tentang pelanggan..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeCustomerModal()">Batal</button>
+                    <button type="submit" class="btn btn-primary">💾 Simpan Pelanggan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Detail Modal -->
+    <div id="customerDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="detailModalTitle">Detail Pelanggan</h3>
+                <span class="close" onclick="closeCustomerDetailModal()">&times;</span>
+            </div>
+            
+            <div class="customer-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalOrders">15</div>
+                    <div class="stat-label">Total Pesanan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalSpent">Rp 12.7Jt</div>
+                    <div class="stat-label">Total Pembelian</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="avgOrder">Rp 850K</div>
+                    <div class="stat-label">Rata-rata Pesanan</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="detailName" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="detailEmail" readonly>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nomor Telepon</label>
+                    <input type="tel" id="detailPhone" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Tipe Pelanggan</label>
+                    <input type="text" id="detailType" readonly>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Kota</label>
+                    <input type="text" id="detailCity" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <input type="text" id="detailStatus" readonly>
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Alamat Lengkap</label>
+                <textarea id="detailAddress" rows="3" readonly></textarea>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Tanggal Bergabung</label>
+                <input type="text" id="detailJoinDate" readonly>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeCustomerDetailModal()">Tutup</button>
+                <button type="button" class="btn btn-primary" onclick="editCustomerFromDetail()">✏️ Edit Pelanggan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.toggle-sidebar').addEventListener('click', function () {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        });
+
+        // Customer Modal Functions
+
+        function editCustomer(id) {
+            document.getElementById('modalTitle').textContent = 'Edit Pelanggan #CUST-00' + id;
+            // Here you would populate the form with existing customer data
+            document.getElementById('customerModal').style.display = 'block';
+        }
+
+        function closeCustomerModal() {
+            document.getElementById('customerModal').style.display = 'none';
+        }
+
+        function viewCustomer(id) {
+            // Sample data - in real app, this would come from API
+            const customerData = {
+                1: {
+                    name: 'Budi Pratama',
+                    email: 'budi.pratama@email.com',
+                    phone: '081234567890',
+                    type: 'VIP',
+                    city: 'Jakarta Selatan',
+                    status: 'Aktif',
+                    address: 'Jl. Merdeka No. 123, Kelurahan Sejahtera, Jakarta Selatan',
+                    joinDate: '15 Januari 2024',
+                    totalOrders: 15,
+                    totalSpent: 'Rp 12.7Jt',
+                    avgOrder: 'Rp 850K'
+                }
+            };
+
+            const customer = customerData[id] || customerData[1];
+            
+            document.getElementById('detailModalTitle').textContent = `Detail Pelanggan - ${customer.name}`;
+            document.getElementById('detailName').value = customer.name;
+            document.getElementById('detailEmail').value = customer.email;
+            document.getElementById('detailPhone').value = customer.phone;
+            document.getElementById('detailType').value = customer.type;
+            document.getElementById('detailCity').value = customer.city;
+            document.getElementById('detailStatus').value = customer.status;
+            document.getElementById('detailAddress').value = customer.address;
+            document.getElementById('detailJoinDate').value = customer.joinDate;
+            document.getElementById('totalOrders').textContent = customer.totalOrders;
+            document.getElementById('totalSpent').textContent = customer.totalSpent;
+            document.getElementById('avgOrder').textContent = customer.avgOrder;
+            
+            document.getElementById('customerDetailModal').style.display = 'block';
+        }
+
+        function closeCustomerDetailModal() {
+            document.getElementById('customerDetailModal').style.display = 'none';
+        }
+
+        function editCustomerFromDetail() {
+            closeCustomerDetailModal();
+            // Get customer ID from the detail modal and open edit modal
+            editCustomer(1);
+        }
+
+        function messageCustomer(id) {
+            alert('Mengirim pesan ke pelanggan #CUST-00' + id);
+            // Here you would open a messaging interface
+        }
+
+        function deleteCustomer(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus pelanggan ini?')) {
+                alert('Pelanggan #CUST-00' + id + ' telah dihapus');
+                // Here you would make an API call to delete the customer
+            }
+        }
+
+        // Select All Functionality
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.customer-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        }
+
+        // Bulk Actions
+        function executeBulkAction() {
+            const action = document.getElementById('bulkAction').value;
+            const selectedCustomers = Array.from(document.querySelectorAll('.customer-checkbox:checked')).map(cb => cb.value);
+
+            if (!action) {
+                alert('Pilih aksi yang ingin dilakukan');
+                return;
+            }
+
+            if (selectedCustomers.length === 0) {
+                alert('Pilih minimal satu pelanggan');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin ${action} ${selectedCustomers.length} pelanggan yang dipilih?`)) {
+                alert(`Aksi ${action} telah dilakukan pada ${selectedCustomers.length} pelanggan`);
+                // Here you would make an API call to perform the bulk action
+            }
+        }
+
+        // Filter Functions
+        function applyFilters() {
+            const status = document.getElementById('statusFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            const city = document.getElementById('cityFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+
+            // Here you would filter the table based on the selected criteria
+            alert('Filter diterapkan: ' + JSON.stringify({ status, type, city, dateFrom, dateTo }));
+        }
+
+        // Form Submission
+        document.getElementById('customerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const customerData = Object.fromEntries(formData);
+
+            // Here you would make an API call to save the customer
+            alert('Pelanggan berhasil disimpan: ' + JSON.stringify(customerData));
+            closeCustomerModal();
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('customerModal');
+            const detailModal = document.getElementById('customerDetailModal');
+            if (e.target === modal) {
+                closeCustomerModal();
+            }
+            if (e.target === detailModal) {
+                closeCustomerDetailModal();
+            }
+        });
+
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#customersTableBody tr');
+
+            rows.forEach(row => {
+                const customerName = row.querySelector('.customer-details h4').textContent.toLowerCase();
+                const customerEmail = row.querySelector('td:nth-child(3) div div:first-child').textContent.toLowerCase();
+                const customerCity = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+                if (customerName.includes(searchTerm) || customerEmail.includes(searchTerm) || customerCity.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Toggle dropdown
+        document.getElementById('userDropdown').addEventListener('click', function () {
+            this.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('userDropdown');
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Action functions
+        function goToAdmin() {
+            window.location.href = '../admin/dashboard.html';
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '../userpage/login.html';
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            // Ctrl+S to save
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                if (document.getElementById('customerModal').style.display === 'block') {
+                    document.getElementById('customerForm').dispatchEvent(new Event('submit'));
+                }
+            }
+
+            // Escape to close modal
+            if (e.key === 'Escape') {
+                if (document.getElementById('customerModal').style.display === 'block') {
+                    closeCustomerModal();
+                }
+                if (document.getElementById('customerDetailModal').style.display === 'block') {
+                    closeCustomerDetailModal();
+                }
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set current date as default for date filters
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateFrom').value = today;
+            document.getElementById('dateTo').value = today;
+            
+            console.log('Customer management page initialized');
+        });
+
+        // Export functionality
+        function exportCustomers() {
+            alert('Mengekspor data pelanggan...');
+            // Here you would implement CSV/Excel export
+        }
+
+        // Import functionality
+        function importCustomers() {
+            alert('Mengimpor data pelanggan...');
+            // Here you would implement file upload and import
+        }
+
+        // Customer status management
+        function activateCustomer(customerId) {
+            if (confirm('Aktifkan pelanggan ini?')) {
+                alert(`Pelanggan ${customerId} berhasil diaktifkan`);
+                // Here you would make an API call to activate customer
+                location.reload();
+            }
+        }
+
+        function deactivateCustomer(customerId) {
+            if (confirm('Nonaktifkan pelanggan ini?')) {
+                alert(`Pelanggan ${customerId} berhasil dinonaktifkan`);
+                // Here you would make an API call to deactivate customer
+                location.reload();
+            }
+        }
+
+        function upgradeToVIP(customerId) {
+            if (confirm('Upgrade pelanggan ini ke VIP?')) {
+                alert(`Pelanggan ${customerId} berhasil diupgrade ke VIP`);
+                // Here you would make an API call to upgrade customer
+                location.reload();
+            }
+        }
+
+        // Send newsletter to customers
+        function sendNewsletter(customerIds) {
+            const subject = prompt('Masukkan subjek newsletter:');
+            if (subject) {
+                alert(`Newsletter "${subject}" berhasil dikirim ke ${customerIds.length} pelanggan`);
+                // Here you would make an API call to send newsletter
+            }
+        }
+
+        // Customer analytics
+        function generateCustomerReport() {
+            alert('Generating customer analytics report...');
+            // Here you would generate and download customer report
+        }
+
+        // Quick actions
+        function quickMessage(customerId, message) {
+            alert(`Pesan "${message}" berhasil dikirim ke pelanggan ${customerId}`);
+            // Here you would make an API call to send quick message
+        }
+
+        // Customer segmentation
+        function segmentCustomers() {
+            const segments = {
+                vip: document.querySelectorAll('.type-vip').length,
+                regular: document.querySelectorAll('.type-regular').length,
+                new: document.querySelectorAll('.type-new').length
+            };
+            
+            console.log('Customer segments:', segments);
+            alert(`Segmentasi Pelanggan:\nVIP: ${segments.vip}\nReguler: ${segments.regular}\nBaru: ${segments.new}`);
+        }
+
+        // Auto-refresh customer data every 5 minutes
+        setInterval(() => {
+            console.log('Auto-refreshing customer data...');
+            // Here you would make an API call to refresh customer data
+        }, 300000);
+
+        // Customer birthday notifications
+        function checkBirthdays() {
+            const today = new Date();
+            const todayString = today.toISOString().split('T')[0];
+            
+            // Here you would check for customers with birthdays today
+            console.log('Checking for customer birthdays on:', todayString);
+        }
+
+        // Initialize birthday check on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkBirthdays();
+        });
+
+        // Customer loyalty program
+        function calculateLoyaltyPoints(customerId, totalSpent) {
+            const points = Math.floor(totalSpent / 10000); // 1 point per 10,000 rupiah
+            return points;
+        }
+
+        // Update customer type based on purchase history
+        function updateCustomerType(customerId, totalOrders, totalSpent) {
+            let newType = 'new';
+            
+            if (totalOrders >= 10 && totalSpent >= 5000000) {
+                newType = 'vip';
+            } else if (totalOrders >= 3) {
+                newType = 'regular';
+            }
+            
+            return newType;
+        }
+
+        // Customer communication preferences
+        function updateCommunicationPreferences(customerId, preferences) {
+            alert(`Preferensi komunikasi untuk pelanggan ${customerId} berhasil diperbarui`);
+            // Here you would save communication preferences
+        }
+
+        // Generate customer ID
+        function generateCustomerId() {
+            const timestamp = Date.now();
+            const random = Math.floor(Math.random() * 1000);
+            return `CUST-${timestamp}-${random}`;
+        }
+
+        // Validate customer data
+        function validateCustomerData(customerData) {
+            const errors = [];
+            
+            if (!customerData.customerName || customerData.customerName.trim().length < 2) {
+                errors.push('Nama pelanggan harus minimal 2 karakter');
+            }
+            
+            if (!customerData.customerEmail || !customerData.customerEmail.includes('@')) {
+                errors.push('Email tidak valid');
+            }
+            
+            if (!customerData.customerPhone || customerData.customerPhone.length < 10) {
+                errors.push('Nomor telepon tidak valid');
+            }
+            
+            return errors;
+        }
+
+        // Enhanced form validation
+        document.getElementById('customerForm').addEventListener('input', function(e) {
+            const field = e.target;
+            const value = field.value.trim();
+            
+            // Remove previous error styling
+            field.style.borderColor = '';
+            
+            // Validate specific fields
+            if (field.name === 'customerEmail' && value && !value.includes('@')) {
+                field.style.borderColor = '#dc3545';
+            }
+            
+            if (field.name === 'customerPhone' && value && value.length < 10) {
+                field.style.borderColor = '#dc3545';
+            }
+        });
+
+        // Customer activity tracking
+        function trackCustomerActivity(customerId, activity) {
+            const timestamp = new Date().toISOString();
+            console.log(`Customer ${customerId} activity: ${activity} at ${timestamp}`);
+            // Here you would log customer activity to analytics
+        }
+
+        // Customer retention analysis
+        function analyzeCustomerRetention() {
+            alert('Menganalisis tingkat retensi pelanggan...');
+            // Here you would perform retention analysis
+        }
+
+        // Customer lifetime value calculation
+        function calculateCustomerLTV(customerId, avgOrderValue, purchaseFrequency, customerLifespan) {
+            return avgOrderValue * purchaseFrequency * customerLifespan;
+        }
+
+        // Advanced search with filters
+        function advancedSearch() {
+            const searchParams = {
+                name: document.querySelector('.search-box input').value,
+                status: document.getElementById('statusFilter').value,
+                type: document.getElementById('typeFilter').value,
+                city: document.getElementById('cityFilter').value,
+                dateFrom: document.getElementById('dateFrom').value,
+                dateTo: document.getElementById('dateTo').value
+            };
+            
+            console.log('Advanced search parameters:', searchParams);
+            // Here you would perform advanced search with API
+        }
+    </script>
+</body>
+
+</html>
